@@ -947,6 +947,39 @@
   "codelists": [],
   "entities": {
     "entities": {
+      "Programma": {
+        "entity": "Programma",
+        "label": "Programma",
+        "datasets": [
+          {
+            "slug": "bdap_lb_spese_missione",
+            "name": "Bdap Lb Spese Missione",
+            "column": "codice_programma",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_lb_spese_missione",
+            "name": "Bdap Lb Spese Missione",
+            "column": "programma",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_spese_stato",
+            "name": "Bdap Spese Stato",
+            "column": "codice_programma",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_spese_stato",
+            "name": "Bdap Spese Stato",
+            "column": "programma",
+            "semantic_type": "programma_code"
+          }
+        ],
+        "types": {
+          "programma_code": 4
+        }
+      },
       "Tempo": {
         "entity": "Tempo",
         "label": "Tempo / data",
@@ -987,6 +1020,33 @@
         }
       }
     },
-    "bridges": []
+    "bridges": [
+      {
+        "from": {
+          "entity": "Programma",
+          "dataset": "bdap_lb_spese_missione",
+          "via": "programma_code"
+        },
+        "to": {
+          "entity": "Progetto",
+          "bridge": "opencoesione_progetti_esteso",
+          "on": "CUP",
+          "semantic_type": "cup_code"
+        }
+      },
+      {
+        "from": {
+          "entity": "Programma",
+          "dataset": "bdap_spese_stato",
+          "via": "programma_code"
+        },
+        "to": {
+          "entity": "Progetto",
+          "bridge": "opencoesione_progetti_esteso",
+          "on": "CUP",
+          "semantic_type": "cup_code"
+        }
+      }
+    ]
   }
 }
