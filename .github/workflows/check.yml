@@ -10,7 +10,6 @@ on:
       - "**/*.yaml"
       - "**/*.sql"
       - "**/Makefile"
-      - "requirements.txt"
 
 jobs:
   detect:
@@ -33,6 +32,6 @@ jobs:
     if: needs.detect.outputs.found == 'true'
     uses: dataciviclab/.github/.github/workflows/dataset-config-check-reusable.yml@main
     with:
-      install: "pip install -r requirements.txt"
+      install: "pip install -e .\"[dev]\""
       configs: ${{ needs.detect.outputs.dirs }}
       years: "from-config"

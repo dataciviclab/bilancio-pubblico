@@ -1,3 +1,6 @@
+# Generato da pyproject.toml [project.optional-dependencies] dashboard.
+# Aggiorna l'extra nel pyproject e mantieni questo file sincronizzato.
+# Streamlit Community Cloud legge solo requirements.txt.
 streamlit>=1.61
 plotly>=5.18
 altair>=6.2
