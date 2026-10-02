@@ -14,6 +14,11 @@ dependencies = [
     "duckdb>=1.5.3,<2",
 ]
 
+# Nessun package Python: il repo è dati + SQL + scripts.
+# Esplicito per evitare il flat-layout discovery di setuptools.
+[tool.setuptools]
+packages = []
+
 [project.optional-dependencies]
 dashboard = [
     "streamlit>=1.61",
