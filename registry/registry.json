@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repo": "bilancio-pubblico",
   "source_repo": "dataciviclab/bilancio-pubblico",
-  "updated_at": "2026-09-05",
+  "updated_at": "2026-10-02",
   "datasets": [
     {
       "slug": "bdap_entrate_stato",
@@ -192,13 +192,15 @@
           "name": "codice_programma",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "programma",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "codice_titolo",
@@ -602,13 +604,15 @@
           "name": "codice_programma",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "programma",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "codice_macroaggregato",
@@ -799,7 +803,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260904T112245Z_bc85f25e",
+        "run_id": "20261002T123854Z_8a663921",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -817,9 +821,9 @@
           "clean": 22545,
           "mart": 9463
         },
-        "started_at": "2026-09-04T11:22:45.505658+00:00",
-        "finished_at": "2026-09-04T11:22:49.996793+00:00",
-        "duration_seconds": 4.491
+        "started_at": "2026-10-02T12:38:54.127094+00:00",
+        "finished_at": "2026-10-02T12:38:58.317856+00:00",
+        "duration_seconds": 4.191
       }
     },
     {
@@ -830,7 +834,7 @@
       "detail": "anni 2017-2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260904T112434Z_524cdbb5",
+        "run_id": "20261002T124043Z_1baf91a7",
         "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
@@ -845,9 +849,9 @@
           "raw": 5172527,
           "clean": 293539
         },
-        "started_at": "2026-09-04T11:24:34.636638+00:00",
-        "finished_at": "2026-09-04T11:24:46.448881+00:00",
-        "duration_seconds": 11.812
+        "started_at": "2026-10-02T12:40:43.867316+00:00",
+        "finished_at": "2026-10-02T12:40:56.493260+00:00",
+        "duration_seconds": 12.626
       }
     },
     {
@@ -858,7 +862,7 @@
       "detail": "anni 2014-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260904T112507Z_35b2f9a4",
+        "run_id": "20261002T124119Z_8e250370",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -874,11 +878,11 @@
         "output_bytes": {
           "raw": 117921,
           "clean": 19844,
-          "mart": 7804
+          "mart": 7832
         },
-        "started_at": "2026-09-04T11:25:07.127095+00:00",
-        "finished_at": "2026-09-04T11:25:08.468415+00:00",
-        "duration_seconds": 1.341
+        "started_at": "2026-10-02T12:41:19.059148+00:00",
+        "finished_at": "2026-10-02T12:41:20.448795+00:00",
+        "duration_seconds": 1.39
       }
     },
     {
@@ -889,7 +893,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260904T112511Z_e31285f8",
+        "run_id": "20261002T124122Z_53afc633",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -907,9 +911,9 @@
           "clean": 7527,
           "mart": 9437
         },
-        "started_at": "2026-09-04T11:25:11.207157+00:00",
-        "finished_at": "2026-09-04T11:25:12.773361+00:00",
-        "duration_seconds": 1.566
+        "started_at": "2026-10-02T12:41:22.957134+00:00",
+        "finished_at": "2026-10-02T12:41:23.878929+00:00",
+        "duration_seconds": 0.922
       }
     },
     {
@@ -920,7 +924,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20260904T112518Z_14300f14",
+        "run_id": "20261002T124128Z_ea3f8454",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -938,9 +942,9 @@
           "clean": 133351,
           "mart": 20356
         },
-        "started_at": "2026-09-04T11:25:18.585992+00:00",
-        "finished_at": "2026-09-04T11:25:25.110904+00:00",
-        "duration_seconds": 6.525
+        "started_at": "2026-10-02T12:41:28.010802+00:00",
+        "finished_at": "2026-10-02T12:41:34.799492+00:00",
+        "duration_seconds": 6.789
       }
     }
   ],
