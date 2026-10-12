@@ -864,7 +864,7 @@
       "table": "mart_per_missione_italia",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_spesa_statale_regionalizzata/2022/mart_per_missione_italia.parquet",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_spesa_statale_regionalizzata/2023/mart_per_missione_italia.parquet",
         "multi_file": false
       }
     },
@@ -874,7 +874,7 @@
       "table": "mart_per_missione_regione",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_spesa_statale_regionalizzata/2022/mart_per_missione_regione.parquet",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_spesa_statale_regionalizzata/2023/mart_per_missione_regione.parquet",
         "multi_file": false
       }
     },
@@ -918,7 +918,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261012T103441Z_f42bbcfb",
+        "run_id": "20261012T105430Z_eb64e8d5",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -936,9 +936,9 @@
           "clean": 22545,
           "mart": 9463
         },
-        "started_at": "2026-10-12T10:34:41.365915+00:00",
-        "finished_at": "2026-10-12T10:34:43.849112+00:00",
-        "duration_seconds": 2.483
+        "started_at": "2026-10-12T10:54:30.807441+00:00",
+        "finished_at": "2026-10-12T10:54:34.945478+00:00",
+        "duration_seconds": 4.138
       }
     },
     {
@@ -949,7 +949,7 @@
       "detail": "anni 2017-2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261012T103600Z_ac00782f",
+        "run_id": "20261012T105619Z_3029ad48",
         "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
@@ -964,9 +964,9 @@
           "raw": 5172527,
           "clean": 293539
         },
-        "started_at": "2026-10-12T10:36:00.781108+00:00",
-        "finished_at": "2026-10-12T10:36:10.175103+00:00",
-        "duration_seconds": 9.394
+        "started_at": "2026-10-12T10:56:19.403537+00:00",
+        "finished_at": "2026-10-12T10:56:32.532222+00:00",
+        "duration_seconds": 13.129
       }
     },
     {
@@ -977,7 +977,7 @@
       "detail": "anni 2014-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261012T103628Z_134cf628",
+        "run_id": "20261012T105702Z_28e09b22",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -993,11 +993,11 @@
         "output_bytes": {
           "raw": 117921,
           "clean": 19844,
-          "mart": 7817
+          "mart": 7823
         },
-        "started_at": "2026-10-12T10:36:28.343855+00:00",
-        "finished_at": "2026-10-12T10:36:30.122563+00:00",
-        "duration_seconds": 1.779
+        "started_at": "2026-10-12T10:57:02.328825+00:00",
+        "finished_at": "2026-10-12T10:57:03.907500+00:00",
+        "duration_seconds": 1.579
       }
     },
     {
@@ -1008,7 +1008,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261012T103631Z_667badec",
+        "run_id": "20261012T105708Z_444e621e",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1026,9 +1026,9 @@
           "clean": 7527,
           "mart": 9437
         },
-        "started_at": "2026-10-12T10:36:31.782025+00:00",
-        "finished_at": "2026-10-12T10:36:32.496629+00:00",
-        "duration_seconds": 0.715
+        "started_at": "2026-10-12T10:57:08.115587+00:00",
+        "finished_at": "2026-10-12T10:57:09.680593+00:00",
+        "duration_seconds": 1.565
       }
     },
     {
@@ -1036,11 +1036,11 @@
       "source_id": "openbdap",
       "status": "ok",
       "label": "bdap_spesa_statale_regionalizzata",
-      "detail": "anni 2008-2022 — mart: si",
+      "detail": "anni 2008-2023 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261012T103800Z_6930a52e",
-        "year": 2022,
+        "run_id": "20261012T105950Z_f55fa4e3",
+        "year": 2023,
         "status": "SUCCESS",
         "quality_score": {
           "raw": 100,
@@ -1048,18 +1048,18 @@
           "mart": 100
         },
         "output_rows": {
-          "raw": 20260,
-          "clean": 20260,
-          "mart": 671
+          "raw": 20268,
+          "clean": 20268,
+          "mart": 670
         },
         "output_bytes": {
-          "raw": 3929845,
-          "clean": 61941,
-          "mart": 9145
+          "raw": 3933609,
+          "clean": 62187,
+          "mart": 9115
         },
-        "started_at": "2026-10-12T10:38:00.382394+00:00",
-        "finished_at": "2026-10-12T10:38:07.693759+00:00",
-        "duration_seconds": 7.311
+        "started_at": "2026-10-12T10:59:50.919137+00:00",
+        "finished_at": "2026-10-12T11:00:01.364729+00:00",
+        "duration_seconds": 10.446
       }
     },
     {
@@ -1070,7 +1070,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261012T103810Z_1f9923ed",
+        "run_id": "20261012T110005Z_ca20b43d",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1088,9 +1088,9 @@
           "clean": 133351,
           "mart": 20356
         },
-        "started_at": "2026-10-12T10:38:10.973332+00:00",
-        "finished_at": "2026-10-12T10:38:15.676732+00:00",
-        "duration_seconds": 4.703
+        "started_at": "2026-10-12T11:00:05.650569+00:00",
+        "finished_at": "2026-10-12T11:00:12.514615+00:00",
+        "duration_seconds": 6.864
       }
     }
   ],
