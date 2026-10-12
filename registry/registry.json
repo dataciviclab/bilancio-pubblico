@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repo": "bilancio-pubblico",
   "source_repo": "dataciviclab/bilancio-pubblico",
-  "updated_at": "2026-10-02",
+  "updated_at": "2026-10-12",
   "datasets": [
     {
       "slug": "bdap_entrate_stato",
@@ -180,13 +180,15 @@
           "name": "codice_missione",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "missione",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "codice_programma",
@@ -310,13 +312,15 @@
           "name": "codice_missione",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "missione",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "codice_categoria",
@@ -564,6 +568,95 @@
       ]
     },
     {
+      "slug": "bdap_spesa_statale_regionalizzata",
+      "name": "Bdap Spesa Statale Regionalizzata",
+      "description": "Spesa del Bilancio dello Stato per territorio destinatario (SRS_SPE_BIL_SPESR_001). Italia + ripartizioni + regioni, per Titolo/Categoria/Missione. Al netto degli interessi sul debito — quota regionalizzata (non confrontabile 1:1 con bdap_spese_stato per tutte le missioni, es. 034 debito quasi assente). Serie OpenBDAP: 2008–2023 (package spd_srs_spe_bil_spesr_01_YYYY). Processati: 2008–2014, 2016–2018, 2020–2022. Mancano dump UUID: 2015, 2019, 2023 (landing esistenti).\n",
+      "source": "",
+      "source_id": "openbdap",
+      "period": {
+        "start": 2008,
+        "end": 2022
+      },
+      "tags": [
+        "finanza-pubblica",
+        "bdap",
+        "spesa",
+        "regionalizzata",
+        "territorio",
+        "bilancio-stato"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "territorio",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "livello_territoriale",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "categoria",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_missione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "missione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "misura",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "importo",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/bilancio-pubblico/bdap_spesa_statale_regionalizzata/*/bdap_spesa_statale_regionalizzata_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "bdap_spesa_statale_regionalizzata__mart_per_missione_italia",
+        "bdap_spesa_statale_regionalizzata__mart_per_missione_regione"
+      ]
+    },
+    {
       "slug": "bdap_spese_stato",
       "name": "Bdap Spese Stato",
       "description": "Spese dello Stato per Missione/Programma/Macroaggregato — Previsioni Definitive CP/CS. Serie storica 2008-2024.",
@@ -592,13 +685,15 @@
           "name": "codice_missione",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "missione",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "programma_code"
         },
         {
           "name": "codice_programma",
@@ -764,6 +859,26 @@
       }
     },
     {
+      "slug": "bdap_spesa_statale_regionalizzata__mart_per_missione_italia",
+      "dataset": "bdap_spesa_statale_regionalizzata",
+      "table": "mart_per_missione_italia",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_spesa_statale_regionalizzata/2022/mart_per_missione_italia.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "bdap_spesa_statale_regionalizzata__mart_per_missione_regione",
+      "dataset": "bdap_spesa_statale_regionalizzata",
+      "table": "mart_per_missione_regione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_spesa_statale_regionalizzata/2022/mart_per_missione_regione.parquet",
+        "multi_file": false
+      }
+    },
+    {
       "slug": "bdap_spese_stato__mart_investimenti_vs_corrente",
       "dataset": "bdap_spese_stato",
       "table": "mart_investimenti_vs_corrente",
@@ -803,7 +918,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261002T123854Z_8a663921",
+        "run_id": "20261012T103441Z_f42bbcfb",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -821,9 +936,9 @@
           "clean": 22545,
           "mart": 9463
         },
-        "started_at": "2026-10-02T12:38:54.127094+00:00",
-        "finished_at": "2026-10-02T12:38:58.317856+00:00",
-        "duration_seconds": 4.191
+        "started_at": "2026-10-12T10:34:41.365915+00:00",
+        "finished_at": "2026-10-12T10:34:43.849112+00:00",
+        "duration_seconds": 2.483
       }
     },
     {
@@ -834,7 +949,7 @@
       "detail": "anni 2017-2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261002T124043Z_1baf91a7",
+        "run_id": "20261012T103600Z_ac00782f",
         "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
@@ -849,9 +964,9 @@
           "raw": 5172527,
           "clean": 293539
         },
-        "started_at": "2026-10-02T12:40:43.867316+00:00",
-        "finished_at": "2026-10-02T12:40:56.493260+00:00",
-        "duration_seconds": 12.626
+        "started_at": "2026-10-12T10:36:00.781108+00:00",
+        "finished_at": "2026-10-12T10:36:10.175103+00:00",
+        "duration_seconds": 9.394
       }
     },
     {
@@ -862,7 +977,7 @@
       "detail": "anni 2014-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261002T124119Z_8e250370",
+        "run_id": "20261012T103628Z_134cf628",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -878,11 +993,11 @@
         "output_bytes": {
           "raw": 117921,
           "clean": 19844,
-          "mart": 7832
+          "mart": 7817
         },
-        "started_at": "2026-10-02T12:41:19.059148+00:00",
-        "finished_at": "2026-10-02T12:41:20.448795+00:00",
-        "duration_seconds": 1.39
+        "started_at": "2026-10-12T10:36:28.343855+00:00",
+        "finished_at": "2026-10-12T10:36:30.122563+00:00",
+        "duration_seconds": 1.779
       }
     },
     {
@@ -893,7 +1008,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261002T124122Z_53afc633",
+        "run_id": "20261012T103631Z_667badec",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -911,9 +1026,40 @@
           "clean": 7527,
           "mart": 9437
         },
-        "started_at": "2026-10-02T12:41:22.957134+00:00",
-        "finished_at": "2026-10-02T12:41:23.878929+00:00",
-        "duration_seconds": 0.922
+        "started_at": "2026-10-12T10:36:31.782025+00:00",
+        "finished_at": "2026-10-12T10:36:32.496629+00:00",
+        "duration_seconds": 0.715
+      }
+    },
+    {
+      "id": "bdap_spesa_statale_regionalizzata",
+      "source_id": "openbdap",
+      "status": "ok",
+      "label": "bdap_spesa_statale_regionalizzata",
+      "detail": "anni 2008-2022 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261012T103800Z_6930a52e",
+        "year": 2022,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 20260,
+          "clean": 20260,
+          "mart": 671
+        },
+        "output_bytes": {
+          "raw": 3929845,
+          "clean": 61941,
+          "mart": 9145
+        },
+        "started_at": "2026-10-12T10:38:00.382394+00:00",
+        "finished_at": "2026-10-12T10:38:07.693759+00:00",
+        "duration_seconds": 7.311
       }
     },
     {
@@ -924,7 +1070,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261002T124128Z_ea3f8454",
+        "run_id": "20261012T103810Z_1f9923ed",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -942,9 +1088,9 @@
           "clean": 133351,
           "mart": 20356
         },
-        "started_at": "2026-10-02T12:41:28.010802+00:00",
-        "finished_at": "2026-10-02T12:41:34.799492+00:00",
-        "duration_seconds": 6.789
+        "started_at": "2026-10-12T10:38:10.973332+00:00",
+        "finished_at": "2026-10-12T10:38:15.676732+00:00",
+        "duration_seconds": 4.703
       }
     }
   ],
@@ -958,6 +1104,18 @@
           {
             "slug": "bdap_lb_spese_missione",
             "name": "Bdap Lb Spese Missione",
+            "column": "codice_missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_lb_spese_missione",
+            "name": "Bdap Lb Spese Missione",
+            "column": "missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_lb_spese_missione",
+            "name": "Bdap Lb Spese Missione",
             "column": "codice_programma",
             "semantic_type": "programma_code"
           },
@@ -965,6 +1123,42 @@
             "slug": "bdap_lb_spese_missione",
             "name": "Bdap Lb Spese Missione",
             "column": "programma",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_pagamenti_stato",
+            "name": "Bdap Pagamenti Stato",
+            "column": "codice_missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_pagamenti_stato",
+            "name": "Bdap Pagamenti Stato",
+            "column": "missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_spesa_statale_regionalizzata",
+            "name": "Bdap Spesa Statale Regionalizzata",
+            "column": "codice_missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_spesa_statale_regionalizzata",
+            "name": "Bdap Spesa Statale Regionalizzata",
+            "column": "missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_spese_stato",
+            "name": "Bdap Spese Stato",
+            "column": "codice_missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_spese_stato",
+            "name": "Bdap Spese Stato",
+            "column": "missione",
             "semantic_type": "programma_code"
           },
           {
@@ -981,7 +1175,7 @@
           }
         ],
         "types": {
-          "programma_code": 4
+          "programma_code": 12
         }
       },
       "Tempo": {
@@ -1013,6 +1207,12 @@
             "semantic_type": "year"
           },
           {
+            "slug": "bdap_spesa_statale_regionalizzata",
+            "name": "Bdap Spesa Statale Regionalizzata",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
             "slug": "bdap_spese_stato",
             "name": "Bdap Spese Stato",
             "column": "esercizio_finanziario",
@@ -1020,7 +1220,7 @@
           }
         ],
         "types": {
-          "year": 5
+          "year": 6
         }
       }
     },
@@ -1029,6 +1229,32 @@
         "from": {
           "entity": "Programma",
           "dataset": "bdap_lb_spese_missione",
+          "via": "programma_code"
+        },
+        "to": {
+          "entity": "Progetto",
+          "bridge": "opencoesione_progetti_esteso",
+          "on": "CUP",
+          "semantic_type": "cup_code"
+        }
+      },
+      {
+        "from": {
+          "entity": "Programma",
+          "dataset": "bdap_pagamenti_stato",
+          "via": "programma_code"
+        },
+        "to": {
+          "entity": "Progetto",
+          "bridge": "opencoesione_progetti_esteso",
+          "on": "CUP",
+          "semantic_type": "cup_code"
+        }
+      },
+      {
+        "from": {
+          "entity": "Programma",
+          "dataset": "bdap_spesa_statale_regionalizzata",
           "via": "programma_code"
         },
         "to": {
