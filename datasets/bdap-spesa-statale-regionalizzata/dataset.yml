@@ -1,0 +1,107 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_spesa_statale_regionalizzata"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, spesa, regionalizzata, territorio, bilancio-stato]
+  category: finanza-pubblica
+  description: >
+    Spesa del Bilancio dello Stato per territorio destinatario (SRS_SPE_BIL_SPESR_001).
+    Italia + ripartizioni + regioni, per Titolo/Categoria/Missione.
+    Al netto degli interessi sul debito — quota regionalizzata (non confrontabile 1:1
+    con bdap_spese_stato per tutte le missioni, es. 034 debito quasi assente).
+    Serie OpenBDAP: 2008–2023 (package spd_srs_spe_bil_spesr_01_YYYY).
+    Processati: 2008–2014, 2016–2018, 2020–2022.
+    Mancano dump UUID: 2015, 2019, 2023 (landing esistenti).
+  years: [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2020, 2021, 2022]
+  time_coverage:
+    start_year: 2008
+    end_year: 2022
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: srs_spesa_statale_csv
+      type: http_file
+      primary: true
+      args:
+        # Dump SpodCkanApi — package spd_srs_spe_bil_spesr_01_YYYY
+        # UUID verificati via catalogo/search; 2015, 2019, 2023 hanno landing
+        # ma non ancora dump UUID in questo config (da recuperare).
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "srs_spesa_statale_{year}.csv"
+        url_suffix_by_year:
+          2008: "99e09ef2-3a76-4af3-9236-4ab6c8418dba.csv"
+          2009: "c600d3cf-11c5-41eb-8ece-94ccff620ddf.csv"
+          2010: "a965c283-3ddc-4e0d-a34a-9abd23368bb4.csv"
+          2011: "9d7880bb-13b9-40ec-bc87-c665f3e9cd98.csv"
+          2012: "709553a7-4283-42c5-a99b-6b7c6aa31658.csv"
+          2013: "9fd1d555-8c22-488a-9eef-bdd06e03f7f9.csv"
+          2014: "1ee8e27e-72c9-4907-a841-a3df2ddf8987.csv"
+          2016: "b2b96215-bec8-48b1-b8c4-e983891173ac.csv"
+          2017: "5c5a11c7-e7c6-4b7e-b29f-384d50dd122b.csv"
+          2018: "49ac8019-bb6c-4f83-9504-35603da33bd7.csv"
+          2020: "bb75db10-1b5b-470d-b475-e425f3b954b1.csv"
+          2021: "2bae0ff7-bb5e-4f7f-92d3-82bfe60124ec.csv"
+          2022: "3a1867e0-2cee-4678-bf31-0416e3926c21.csv"
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: config_only
+    mode: latest
+    header: true
+    delim: ";"
+    encoding: "cp1252"
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+    sample_size: -1
+    columns:
+      "Anno di Interesse": "VARCHAR"
+      "Territorio": "VARCHAR"
+      "Titolo": "VARCHAR"
+      "Categoria": "VARCHAR"
+      "Missione": "VARCHAR"
+      "Tipo Misura": "VARCHAR"
+      "Importo": "VARCHAR"
+  required_columns:
+    [
+      anno,
+      territorio,
+      livello_territoriale,
+      titolo,
+      categoria,
+      codice_missione,
+      misura,
+      importo,
+    ]
+  validate:
+    not_null: [anno, territorio, codice_missione, misura]
+    min_rows: 1000
+
+mart:
+  tables:
+    - name: "mart_per_missione_italia"
+      sql: "sql/mart_per_missione_italia.sql"
+    - name: "mart_per_missione_regione"
+      sql: "sql/mart_per_missione_regione.sql"
+  required_tables:
+    - mart_per_missione_italia
+    - mart_per_missione_regione
+  validate:
+    table_rules:
+      mart_per_missione_italia:
+        min_rows: 20
+        primary_key: [anno, codice_missione]
+        required_columns: [anno, codice_missione, importo_mln]
+      mart_per_missione_regione:
+        min_rows: 50
+        required_columns: [anno, territorio, codice_missione, importo_mln]
+
+validation:
+  fail_on_error: true
+
+duckdb:
+  memory_limit: "4GB"
