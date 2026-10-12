@@ -9,13 +9,15 @@
 --   2. Le 4 misure sono distinte (mln assoluti, % PIL, €/ab, €/kmq).
 --   3. Schema e categorie variano tra annualità (drift dichiarato dalla fonte).
 --   4. Non è grain programma/macroaggregato: è titolo/categoria/missione territorializzato.
+--
+-- Macro toolkit: normalize_string, cast_int, cast_double.
 
 SELECT
-    CAST("Anno di Interesse" AS INTEGER) AS anno,
+    cast_int("Anno di Interesse") AS anno,
     normalize_string("Territorio") AS territorio,
     CASE
-        WHEN UPPER(TRIM("Territorio")) = 'ITALIA' THEN 'Italia'
-        WHEN UPPER(TRIM("Territorio")) IN (
+        WHEN normalize_string("Territorio") = 'ITALIA' THEN 'Italia'
+        WHEN normalize_string("Territorio") IN (
             'CENTRO', 'ISOLE', 'NORD-EST', 'NORD-OVEST', 'SUD'
         ) THEN 'Ripartizione'
         ELSE 'Regione'
@@ -26,8 +28,8 @@ SELECT
     regexp_extract(normalize_string("Missione"), '^([0-9]{3})-', 1) AS codice_missione,
     regexp_replace(normalize_string("Missione"), '^[0-9]{3}-', '') AS missione,
     normalize_string("Tipo Misura") AS misura,
-    CAST("Importo" AS DOUBLE) AS importo
+    cast_double("Importo") AS importo
 FROM raw_input
-WHERE CAST("Anno di Interesse" AS INTEGER) IS NOT NULL
-  AND NULLIF(TRIM("Territorio"), '') IS NOT NULL
-  AND NULLIF(TRIM("Missione"), '') IS NOT NULL
+WHERE cast_int("Anno di Interesse") IS NOT NULL
+  AND normalize_string("Territorio") IS NOT NULL
+  AND normalize_string("Missione") IS NOT NULL
