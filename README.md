@@ -28,6 +28,7 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 | bdap_spese_stato | 2008-2025 | 3 | Spese per Missione/Programma/Macroaggregato |
 | bdap_pagamenti_stato | 2014-2025 | 3x12 | Consuntivo pagamenti per Amministrazione/Missione/Categoria |
 | bdap_lb_spese_missione | 2017-2026 | 2 | Legge di Bilancio per missione DPCM Art.3 |
+| bdap_spesa_statale_regionalizzata | 2008-2022 (no 2015/2019/2023) | 2 | Spesa Stato per territorio destinatario (SRS bilancio) |
 
 ### Mart analitici (16 totali)
 
