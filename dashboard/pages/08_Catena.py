@@ -96,11 +96,11 @@ for df, col, name, ann in [
     m = m.merge(part, on="missione", how="outer")
 m = m.fillna(0.0).sort_values("Impegnato", ascending=False)
 
-top = m.head(12).iloc[::-1]
+top = m.head(12).sort_values("Impegnato")
 fig2 = go.Figure()
 for col, color in [("DLB", "#8e44ad"), ("LB", "#3498db"), ("Definitiva", "#f39c12"), ("Impegnato", "#e74c3c")]:
     fig2.add_trace(go.Bar(y=top["missione"], x=top[col], name=col, orientation="h", marker_color=color))
-fig2.update_layout(barmode="group", xaxis_title="Miliardi di €", height=560, margin={"t": 30}, legend=dict(orientation="h", y=-0.12))
+fig2.update_layout(barmode="group", xaxis_title="Miliardi di €", height=560, margin={"t": 30}, legend=dict(orientation="h", y=-0.12), yaxis=dict(categoryorder="array", categoryarray=top["missione"].tolist()))
 st.plotly_chart(fig2, width="stretch")
 
 st.info(

@@ -62,9 +62,15 @@ st.subheader(f"Composizione entrate per Titolo ({latest})")
 
 titoli = df_titolo[df_titolo["anno"] == latest].copy()
 if not titoli.empty:
+    titoli = titoli.sort_values("totale_cp", ascending=False)
     fig3 = go.Figure(go.Bar(
         x=titoli["titolo_breve"], y=titoli["totale_cp"] / 1e9,
         marker_color="#3498db",
     ))
-    fig3.update_layout(yaxis_title="Milioni di €", height=350, margin={"t": 30})
+    fig3.update_layout(
+        yaxis_title="Miliardi di €",
+        height=350,
+        margin={"t": 30},
+        xaxis=dict(categoryorder="total descending"),
+    )
     st.plotly_chart(fig3, width="stretch")

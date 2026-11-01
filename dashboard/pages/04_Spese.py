@@ -33,7 +33,12 @@ fig = go.Figure(go.Bar(
     orientation="h",
     marker_color="#3498db",
 ))
-fig.update_layout(yaxis=dict(autorange="reversed"), xaxis_title="Milioni di €", height=400, margin={"t": 30})
+fig.update_layout(
+    yaxis=dict(categoryorder="total ascending"),
+    xaxis_title="Miliardi di €",
+    height=400,
+    margin={"t": 30},
+)
 st.plotly_chart(fig, width="stretch")
 
 # --- Trend spese totali ---

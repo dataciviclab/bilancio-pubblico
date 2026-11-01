@@ -44,11 +44,13 @@ st.plotly_chart(fig, width="stretch")
 
 # --- Missioni con più residui ---
 st.subheader(f"Missioni con più residui — {anno}")
-mm = missioni[missioni["anno"] == anno].sort_values("rimasto_cp_mld", ascending=False).head(12).iloc[::-1]
+mm = missioni[missioni["anno"] == anno].copy()
+mm["totale"] = mm["pagato_cp_mld"] + mm["rimasto_cp_mld"]
+mm = mm.sort_values("totale", ascending=False).head(12).sort_values("totale")
 fig2 = go.Figure()
 fig2.add_trace(go.Bar(y=mm["missione"], x=mm["pagato_cp_mld"], name="Pagato", orientation="h", marker_color="#2ecc71"))
 fig2.add_trace(go.Bar(y=mm["missione"], x=mm["rimasto_cp_mld"], name="Residui", orientation="h", marker_color="#e67e22"))
-fig2.update_layout(barmode="stack", xaxis_title="Miliardi di €", height=480, margin={"t": 30}, legend=dict(orientation="h", y=-0.12))
+fig2.update_layout(barmode="stack", xaxis_title="Miliardi di €", height=480, margin={"t": 30}, legend=dict(orientation="h", y=-0.12), yaxis=dict(categoryorder="array", categoryarray=mm["missione"].tolist()))
 st.plotly_chart(fig2, width="stretch")
 
 # --- Entrate ---

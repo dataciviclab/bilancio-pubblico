@@ -93,12 +93,12 @@ base["Gap LB→impegnato %"] = base.apply(
 )
 base = base.sort_values("Impegnato", ascending=False)
 
-top = base.head(12).iloc[::-1]
+top = base.head(12).sort_values("Impegnato")
 fig2 = go.Figure()
 fig2.add_trace(go.Bar(y=top["missione"], x=top["LB"], name="LB", orientation="h", marker_color="#3498db"))
 fig2.add_trace(go.Bar(y=top["missione"], x=top["Impegnato"], name="Impegnato", orientation="h", marker_color="#e74c3c"))
 fig2.add_trace(go.Bar(y=top["missione"], x=top["Pagato"], name="Pagato", orientation="h", marker_color="#2ecc71"))
-fig2.update_layout(barmode="group", xaxis_title="Miliardi di €", height=520, margin={"t": 30}, legend=dict(orientation="h", y=-0.12))
+fig2.update_layout(barmode="group", xaxis_title="Miliardi di €", height=520, margin={"t": 30}, legend=dict(orientation="h", y=-0.12), yaxis=dict(categoryorder="array", categoryarray=top["missione"].tolist()))
 st.plotly_chart(fig2, width="stretch")
 
 st.dataframe(

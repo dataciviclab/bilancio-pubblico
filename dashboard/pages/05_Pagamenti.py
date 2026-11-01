@@ -116,8 +116,8 @@ if not df_missioni.empty:
         )
     )
     fig3.update_layout(
-        yaxis=dict(autorange="reversed"),
-        xaxis_title="Milioni di € (totale cumulato)",
+        yaxis=dict(categoryorder="total ascending"),
+        xaxis_title="Miliardi di € (totale cumulato)",
         height=350,
         margin={"t": 30},
     )
