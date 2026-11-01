@@ -21,7 +21,7 @@ prev = latest - 1
 row_pag = df_pag[df_pag["anno"] == latest].iloc[0]
 row_deb = (
     df_deb[df_deb["anno"] == latest].iloc[0]
-    if latest in df_deb["anno"].values
+    if latest in df_deb["anno"].values and "interessi_pagati" in df_deb.columns
     else None
 )
 
@@ -37,13 +37,13 @@ col1.metric(
 col2.metric("Quota erario", f"{row_pag['quota_erario_pct']:.1f}%")
 if row_deb is not None:
     delta_deb = (
-        f"{row_deb['var_pct']:+.1f}%"
-        if row_deb["var_pct"] == row_deb["var_pct"]
+        f"{row_deb['var_pct_interessi']:+.1f}%"
+        if row_deb["var_pct_interessi"] == row_deb["var_pct_interessi"]
         else None
     )
     col3.metric(
-        "Costo debito",
-        f"€ {row_deb['costo_debito_bilancio'] / 1e9:,.0f} mld",
+        "Interessi pagati",
+        f"€ {row_deb['interessi_pagati'] / 1e9:,.0f} mld",
         delta=delta_deb,
     )
 
@@ -72,22 +72,31 @@ fig.add_trace(
 fig.update_layout(yaxis_title="Milioni di €", height=350, margin={"t": 30})
 st.plotly_chart(fig, width="stretch")
 
-# --- Costo debito bilancio ---
-st.subheader("Costo del debito a bilancio (Missione 034)")
+# --- Debito bilancio ---
+st.subheader("Missione Debito pubblico: interessi vs rimborsi")
 
-fig2 = go.Figure()
-fig2.add_trace(
-    go.Scatter(
-        x=df_deb["anno"],
-        y=df_deb["costo_debito_bilancio"] / 1e9,
-        name="Costo debito",
-        line=dict(color="#e74c3c", width=2),
-        fill="tozeroy",
-        fillcolor="rgba(231,76,60,0.1)",
+if "interessi_pagati" in df_deb.columns:
+    fig2 = go.Figure()
+    fig2.add_trace(
+        go.Scatter(
+            x=df_deb["anno"],
+            y=df_deb["interessi_pagati"] / 1e9,
+            name="Interessi pagati",
+            line=dict(color="#e74c3c", width=2),
+        )
     )
-)
-fig2.update_layout(yaxis_title="Milioni di €", height=350, margin={"t": 30})
-st.plotly_chart(fig2, width="stretch")
+    fig2.add_trace(
+        go.Scatter(
+            x=df_deb["anno"],
+            y=df_deb["rimborsi_pagati"] / 1e9,
+            name="Rimborsi di capitale",
+            line=dict(color="#7f8c8d", width=2, dash="dot"),
+        )
+    )
+    fig2.update_layout(yaxis_title="Milioni di €", height=350, margin={"t": 30})
+    st.plotly_chart(fig2, width="stretch")
+else:
+    st.info("Mart del debito non ancora aggiornato: dettaglio interessi non disponibile.")
 
 st.info(
     "📊 Per un'analisi approfondita del debito pubblico italiano — "

@@ -96,6 +96,8 @@ mart:
       mart_costo_debito_bilancio:
         min_rows: 1
         primary_key: [anno]
+        required_columns:
+          [anno, spesa_missione_debito, interessi_pagati, rimborsi_pagati, altri_oneri_debito]
 
 validation:
   fail_on_error: true
