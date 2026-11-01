@@ -26,6 +26,15 @@ run:
 		$(TOOLKIT) run --config "$$f" || exit 1; \
 	done
 
+# Batch selettivo post-merge: esegue solo i dataset toccati (batch.txt dal workflow).
+.PHONY: run-batch
+run-batch:
+	@if [ -s batch.txt ]; then \
+		$(TOOLKIT) run --batch batch.txt; \
+	else \
+		echo "Nessun dataset da processare"; \
+	fi
+
 .PHONY: run-all
 run-all: seeds run
 
