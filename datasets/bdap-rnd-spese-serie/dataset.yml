@@ -1,0 +1,85 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_rnd_spese_serie"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, spese, rendiconto, bilancio-stato, serie-storica]
+  category: finanza-pubblica
+  description: "Rendiconto Pubblicato — Spese per Amministrazione/Missione/Programma/Macroaggregato, serie storica. Previsioni definitive CP/CS (NON consuntivo di cassa: per pagato e residui serve il Rendiconto Elaborabile per Capitolo)."
+  years: [2025]
+  time_coverage:
+    start_year: 2008
+    end_year: 2025
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "rnd_spese_serie"
+      type: "http_file"
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/ff1416f4-d0f2-4c7e-bb72-3d1c0c95f35b.csv"
+        filename: "rnd_spese_serie.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns:
+    [anno, annualita, stato_previsione, amministrazione, missione, programma, macroaggregato, cp, cs]
+  read:
+    source: config_only
+    mode: latest
+    header: false
+    skip: 1
+    delim: ";"
+    encoding: "cp1252"
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+    sample_size: -1
+    columns:
+      column00: "VARCHAR"
+      column01: "VARCHAR"
+      column02: "VARCHAR"
+      column03: "VARCHAR"
+      column04: "VARCHAR"
+      column05: "VARCHAR"
+      column06: "VARCHAR"
+      column07: "VARCHAR"
+      column08: "VARCHAR"
+      column09: "VARCHAR"
+      column10: "VARCHAR"
+      column11: "VARCHAR"
+  validate:
+    not_null: [anno]
+    min_rows: 1000
+
+mart:
+  tables:
+    - name: "mart_rnd_spese_anno"
+      sql: "sql/mart_anno.sql"
+    - name: "mart_rnd_spese_missione"
+      sql: "sql/mart_missione.sql"
+    - name: "mart_rnd_spese_amministrazione"
+      sql: "sql/mart_amministrazione.sql"
+  required_tables:
+    - "mart_rnd_spese_anno"
+    - "mart_rnd_spese_missione"
+    - "mart_rnd_spese_amministrazione"
+  validate:
+    table_rules:
+      mart_rnd_spese_anno:
+        min_rows: 15
+        primary_key: [anno, annualita]
+      mart_rnd_spese_missione:
+        min_rows: 200
+        primary_key: [anno, annualita, missione, amministrazione]
+      mart_rnd_spese_amministrazione:
+        min_rows: 200
+        primary_key: [anno, annualita, amministrazione, macroaggregato]
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal

@@ -1,0 +1,90 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_lb_spese_serie"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, spese, legge-bilancio, bilancio-stato, serie-storica]
+  category: finanza-pubblica
+  description: "Legge di Bilancio Pubblicata — Spese per Amministrazione/Missione/Programma/Macroaggregato, serie storica. Previsioni iniziali su tre annualità (A1 = anno di bilancio, A2/A3 = anni successivi). Missione e programma sono vuoti negli anni più vecchi."
+  years: [2026]
+  time_coverage:
+    start_year: 2003
+    end_year: 2026
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "lb_spese_serie"
+      type: "http_file"
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/e0be9f03-134b-446d-8e6c-cb5c14ddc11c.csv"
+        filename: "lb_spese_serie.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns:
+    [anno, annualita, stato_previsione, amministrazione, missione, programma, macroaggregato, cp, cs]
+  read:
+    source: config_only
+    mode: latest
+    header: false
+    skip: 1
+    delim: ";"
+    encoding: "cp1252"
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+    sample_size: -1
+    columns:
+      column00: "VARCHAR"
+      column01: "VARCHAR"
+      column02: "VARCHAR"
+      column03: "VARCHAR"
+      column04: "VARCHAR"
+      column05: "VARCHAR"
+      column06: "VARCHAR"
+      column07: "VARCHAR"
+      column08: "VARCHAR"
+      column09: "VARCHAR"
+      column10: "VARCHAR"
+      column11: "VARCHAR"
+      column12: "VARCHAR"
+      column13: "VARCHAR"
+      column14: "VARCHAR"
+  validate:
+    not_null: [anno]
+    min_rows: 5000
+    promotion:
+      warn_removed_columns: false
+
+mart:
+  tables:
+    - name: "mart_lb_spese_anno"
+      sql: "sql/mart_anno.sql"
+    - name: "mart_lb_spese_missione"
+      sql: "sql/mart_missione.sql"
+    - name: "mart_lb_spese_amministrazione"
+      sql: "sql/mart_amministrazione.sql"
+  required_tables:
+    - "mart_lb_spese_anno"
+    - "mart_lb_spese_missione"
+    - "mart_lb_spese_amministrazione"
+  validate:
+    table_rules:
+      mart_lb_spese_anno:
+        min_rows: 15
+        primary_key: [anno, annualita]
+      mart_lb_spese_missione:
+        min_rows: 200
+        primary_key: [anno, annualita, missione, amministrazione]
+      mart_lb_spese_amministrazione:
+        min_rows: 200
+        primary_key: [anno, annualita, amministrazione, macroaggregato]
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal

@@ -1,0 +1,97 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_rnd_entrate_articolo"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, entrate, rendiconto, consuntivo, bilancio-stato]
+  category: finanza-pubblica
+  description: "Rendiconto Pubblicato Elaborabile — Entrate per articolo, 2011-2025. Previsioni iniziali/variazioni/definitive, versato, rimasto da versare, rimasto da riscuotere e totale per CP/CS/RS. E' il consuntivo delle entrate: accertato e riscosso ricostruibili dalle colonne di totale e riscosso."
+  years: [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage:
+    start_year: 2011
+    end_year: 2025
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "rnd_entrate_articolo"
+      type: "http_file"
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "rnd_entrate_articolo_{year}.csv"
+        url_suffix_by_year:
+          2011: "d0f41616-f4bc-4a0e-a97b-258db7ead51a.csv"
+          2012: "fe94e8dd-ceda-49ee-a22c-b1780de81af3.csv"
+          2013: "4ef575d1-642e-4bc9-8eb6-056aa8aa8210.csv"
+          2014: "8dd2e166-d540-4096-acef-13349197e3d4.csv"
+          2015: "694013f7-14ca-4f50-87d9-7c7084467c8c.csv"
+          2016: "8f87af41-01cc-4341-8d72-1ebfe1caba7e.csv"
+          2017: "5756f3df-2412-4dba-8c0a-5f37084feb89.csv"
+          2018: "da7992b3-b1b8-4fe7-b2f8-bdbd7961906b.csv"
+          2019: "d2cc489f-b834-4d59-88b9-03d21789de3f.csv"
+          2020: "e41653d2-173b-4b28-8305-ba6047a1f107.csv"
+          2021: "2fa547d2-055c-453a-8b1b-af45f539f913.csv"
+          2022: "10e9d980-6c9a-47ed-adf5-6580760a5beb.csv"
+          2023: "aacd4118-9e09-4a2d-83e4-a1a21f2daaa0.csv"
+          2024: "01421b5d-cbdb-4064-868b-bcb50b9f60ce.csv"
+          2025: "6f21b600-3cf9-4b05-90d0-16ceda2974ec.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns:
+    [anno, amministrazione, capitolo, articolo, titolo, prev_def_cp, versato_cp, totale_cp]
+  read:
+    source: config_only
+    mode: latest
+    header: true
+    skip: 0
+    delim: ";"
+    encoding: "cp1252"
+    all_varchar: true
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+    sample_size: -1
+  validate:
+    not_null: [anno, capitolo]
+    min_rows: 1000
+    promotion:
+      warn_removed_columns: false
+
+mart:
+  tables:
+    - name: "mart_articolo"
+      sql: "sql/mart_articolo.sql"
+    - name: "mart_anno"
+      sql: "sql/mart_anno.sql"
+    - name: "mart_titolo"
+      sql: "sql/mart_titolo.sql"
+    - name: "mart_amministrazione"
+      sql: "sql/mart_amministrazione.sql"
+  required_tables:
+    - "mart_articolo"
+    - "mart_anno"
+    - "mart_titolo"
+    - "mart_amministrazione"
+  validate:
+    table_rules:
+      mart_articolo:
+        min_rows: 500
+        primary_key: [anno, amministrazione, capitolo, articolo]
+      mart_anno:
+        min_rows: 1
+        primary_key: [anno]
+      mart_titolo:
+        min_rows: 3
+        primary_key: [anno, titolo]
+      mart_amministrazione:
+        min_rows: 5
+        primary_key: [anno, amministrazione]
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal
