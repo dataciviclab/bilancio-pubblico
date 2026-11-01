@@ -14,10 +14,26 @@ PREFIX = "bilancio-pubblico/"
 
 
 def _mart(slug: str, table: str, year: int | None = None) -> pd.DataFrame:
-    """Load a single mart table via lab_connectors."""
-    if year is None:
-        return load_mart_flat(slug, table, prefix=PREFIX)
-    return load_mart_table(slug, table, year, prefix=PREFIX)
+    """Load a single mart table via lab_connectors.
+
+    Prova prima il filesystem locale (``out/data`` rilevato da lab_connectors),
+    poi ricade su GCS: in sviluppo l'output locale può essere parziale, mentre
+    in cloud il locale non esiste e si legge direttamente dal bucket.
+    """
+    try:
+        if year is None:
+            return load_mart_flat(slug, table, prefix=PREFIX)
+        return load_mart_table(slug, table, year, prefix=PREFIX)
+    except Exception:
+        from lab_connectors.duckdb.core import safe_connect
+        from lab_connectors.gcs.paths import https_url
+
+        if year is None:
+            url = https_url("mart", "mart_parquet_flat", prefix=PREFIX, slug=slug, table=table)
+        else:
+            url = https_url("mart", "mart_parquet", prefix=PREFIX, slug=slug, year=str(year), table=table)
+        with safe_connect() as con:
+            return con.sql(f"SELECT * FROM read_parquet('{url}')").df()
 
 
 def get_last_updated() -> str:
