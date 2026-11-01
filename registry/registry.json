@@ -1843,7 +1843,7 @@
       "detail": "anni 2014-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261101T204645Z_c907e409",
+        "run_id": "20261101T210443Z_4d2150ab",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1861,9 +1861,9 @@
           "clean": 19844,
           "mart": 7804
         },
-        "started_at": "2026-11-01T20:46:45.911828+00:00",
-        "finished_at": "2026-11-01T20:46:47.456060+00:00",
-        "duration_seconds": 1.544
+        "started_at": "2026-11-01T21:04:43.105020+00:00",
+        "finished_at": "2026-11-01T21:04:44.489683+00:00",
+        "duration_seconds": 1.385
       }
     },
     {
