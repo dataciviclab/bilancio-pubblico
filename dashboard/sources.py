@@ -114,3 +114,72 @@ def load_lb_spese_anno():
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_lb_vs_rendiconto():
     return _mart("bdap_lb_spese_missione", "mart_lb_vs_rendiconto")
+
+
+# --- Serie a tre stadi (DLB -> LB -> Rendiconto) ---
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_dlb_serie_anno():
+    return _mart("bdap_dlb_spese_serie", "mart_dlb_spese_anno", 2026)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_lb_serie_anno():
+    return _mart("bdap_lb_spese_serie", "mart_lb_spese_anno", 2026)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_rnd_serie_anno():
+    return _mart("bdap_rnd_spese_serie", "mart_rnd_spese_anno", 2025)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_dlb_serie_missione():
+    return _mart("bdap_dlb_spese_serie", "mart_dlb_spese_missione", 2026)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_lb_serie_missione():
+    return _mart("bdap_lb_spese_serie", "mart_lb_spese_missione", 2026)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_rnd_serie_missione():
+    return _mart("bdap_rnd_spese_serie", "mart_rnd_spese_missione", 2025)
+
+
+# --- Consuntivo (spese per capitolo, entrate per articolo) ---
+
+
+def _concat_years(slug: str, table: str, years: range) -> pd.DataFrame:
+    """Concatena una mart per anno (i consuntivi sono pubblicati un anno per volta)."""
+    frames = []
+    for year in years:
+        try:
+            df = _mart(slug, table, year)
+            if not df.empty:
+                frames.append(df)
+        except Exception:
+            pass
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_consuntivo_spese_anno():
+    return _concat_years("bdap_rnd_spese_capitolo", "mart_anno", range(2011, 2026))
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_consuntivo_spese_missione():
+    return _concat_years("bdap_rnd_spese_capitolo", "mart_missione", range(2011, 2026))
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_consuntivo_entrate_anno():
+    return _concat_years("bdap_rnd_entrate_articolo", "mart_anno", range(2011, 2026))
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_consuntivo_entrate_titolo():
+    return _concat_years("bdap_rnd_entrate_articolo", "mart_titolo", range(2011, 2026))

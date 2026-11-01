@@ -38,6 +38,9 @@ def test_sources_data_loads() -> None:
         load_spese_missione,
         load_pagamenti_anno,
         load_costo_debito,
+        load_lb_serie_anno,
+        load_consuntivo_spese_anno,
+        load_consuntivo_entrate_titolo,
     )
     assert not load_saldi_anno().empty, "saldi_anno vuoto"
     assert not load_composizione_spesa().empty, "composizione_spesa vuoto"
@@ -45,3 +48,6 @@ def test_sources_data_loads() -> None:
     assert not load_spese_missione().empty, "spese_missione vuoto"
     assert not load_pagamenti_anno().empty, "pagamenti_anno vuoto"
     assert not load_costo_debito().empty, "costo_debito vuoto"
+    assert not load_lb_serie_anno().empty, "lb_serie_anno vuoto"
+    assert not load_consuntivo_spese_anno().empty, "consuntivo_spese_anno vuoto"
+    assert not load_consuntivo_entrate_titolo().empty, "consuntivo_entrate_titolo vuoto"

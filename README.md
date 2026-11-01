@@ -68,8 +68,10 @@ Dashboard Streamlit con 7 pagine:
 | Entrate | Trend totali, quote tributarie, top titoli per titolo/natura |
 | Spese per Missione | Top10 missioni per importo, trend spese totali |
 | Pagamenti e Debito | Trend pagati, costo debito (missione 034), top10 missioni |
-| Query SQL | Query libere su tutti i 16 mart |
-| Promesse vs Realtà | LB vs Rendiconto per missione (2017-2025, 34 missioni) |
+| Query SQL | Query libere su tutti i mart |
+| Promesse vs Realtà | LB vs previsione definitiva vs consuntivo per missione (2011-2025, 34 missioni) |
+| Catena del Bilancio | DLB → LB → previsione definitiva → impegnato → pagato, per anno e missione |
+| Consuntivo | Pagato, residui, economie di spesa e accertato/versato delle entrate (2011-2025) |
 
 ## Come si usa
 
