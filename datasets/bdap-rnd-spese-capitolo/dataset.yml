@@ -1,0 +1,98 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_rnd_spese_capitolo"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, spese, rendiconto, consuntivo, residui, capitolo, bilancio-stato]
+  category: finanza-pubblica
+  description: "Rendiconto Pubblicato Elaborabile — Spese per capitolo, 2011-2025. Previsioni iniziali/variazioni/definitive, pagato, rimasto da pagare, totale ed economie per CP/CS/RS. E' il consuntivo di competenza: l'impegnato e' ricostruibile come pagato + rimasto da pagare."
+  years: [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage:
+    start_year: 2011
+    end_year: 2025
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "rnd_spese_capitolo"
+      type: "http_file"
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "rnd_spese_capitolo_{year}.csv"
+        url_suffix_by_year:
+          2011: "9af0d002-1e3c-4365-a6ac-5df71a46276f.csv"
+          2012: "0f270992-0664-47c3-b040-4d550b8bcf1f.csv"
+          2013: "55effd41-5830-4438-941d-6aace701ea70.csv"
+          2014: "726d9254-53cc-4c94-8ba3-c8a83cfa88f4.csv"
+          2015: "3fcf7442-bbf3-4cbc-8a4b-f1b6dcbde95d.csv"
+          2016: "00b33aed-007f-483f-a7c5-b94694f37ac5.csv"
+          2017: "b42fccf7-9a6c-480d-b73c-741a30ae9ae1.csv"
+          2018: "4b980bc6-e525-4ec7-ad3e-5865025bfd24.csv"
+          2019: "6ec860e9-5583-478d-b203-a7ad87a463f8.csv"
+          2020: "e008e761-e602-4277-b619-d3e3a45fe8e3.csv"
+          2021: "e7a17214-3b88-451e-a411-26d1d6691efc.csv"
+          2022: "c72b5f41-8de9-45b4-b2b4-21fab3f4ba57.csv"
+          2023: "57ef91e8-960f-4937-8669-e30998e69bff.csv"
+          2024: "940dd84e-6b32-4286-a3a3-2bbd74d96c4e.csv"
+          2025: "a7625ae5-79f7-41c5-b7ca-2e45dc40ea21.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns:
+    [anno, amministrazione, capitolo, missione, programma,
+     prev_def_cp, pagato_cp, rimasto_cp, totale_cp, prev_def_cs, pagato_cs]
+  read:
+    source: config_only
+    mode: latest
+    header: true
+    skip: 0
+    delim: ";"
+    encoding: "cp1252"
+    all_varchar: true
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+    sample_size: -1
+  validate:
+    not_null: [anno, capitolo]
+    min_rows: 1000
+    promotion:
+      warn_removed_columns: false
+
+mart:
+  tables:
+    - name: "mart_capitolo"
+      sql: "sql/mart_capitolo.sql"
+    - name: "mart_anno"
+      sql: "sql/mart_anno.sql"
+    - name: "mart_missione"
+      sql: "sql/mart_missione.sql"
+    - name: "mart_amministrazione"
+      sql: "sql/mart_amministrazione.sql"
+  required_tables:
+    - "mart_capitolo"
+    - "mart_anno"
+    - "mart_missione"
+    - "mart_amministrazione"
+  validate:
+    table_rules:
+      mart_capitolo:
+        min_rows: 500
+        primary_key: [anno, amministrazione, capitolo]
+      mart_anno:
+        min_rows: 1
+        primary_key: [anno]
+      mart_missione:
+        min_rows: 10
+        primary_key: [anno, missione]
+      mart_amministrazione:
+        min_rows: 5
+        primary_key: [anno, amministrazione]
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal
