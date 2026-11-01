@@ -33,6 +33,8 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 | bdap_lb_spese_serie | 2003-2026 | 3 | Legge di Bilancio: spese per amministrazione/missione/programma/macroaggregato, triennio A1/A2/A3 |
 | bdap_dlb_spese_serie | 2003-2026 | 3 | Disegno di Legge di Bilancio: spese per amministrazione/missione/programma/macroaggregato, triennio A1/A2/A3 |
 
+> **Nota 2017**: la vista BDAP aggregata per missione/programma/macroaggregato (`bdap_spese_stato`) omette una quota del programma "Garanzia dei diritti dei cittadini" finanziata dal Ministero dell'Economia (~10,4 mld CS). La vista per amministrazione (`bdap_rnd_spese_serie`) la include: per il 2017 il totale CS è 914,8 mld contro 904,2 della vista aggregata. Il delta è documentato, non corretto a valle.
+
 ### Mart analitici (25 totali)
 
 **Saldi** (3): mart_saldi_anno, mart_composizione_spesa, mart_avanzo_primario

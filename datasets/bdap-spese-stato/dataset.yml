@@ -18,7 +18,7 @@ raw:
     - name: "openbdap_spese_csv"
       type: "http_file"
       args:
-        url: "https://bdap-opendata.rgs.mef.gov.it/export/csv/Rendiconto-Pubblicato---Serie-storica---Spese-Aggregato-per-Missione-Programma-e-Macroaggregato.csv"
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/e0fe1332-4471-4631-8b77-30eb19d2bcc6.csv"
         filename: "bdap_spese_stato_serie_storica.csv"
       primary: true
 
