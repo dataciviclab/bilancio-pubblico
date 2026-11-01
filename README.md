@@ -33,10 +33,13 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 | bdap_lb_spese_serie | 2003-2026 | 3 | Legge di Bilancio: spese per amministrazione/missione/programma/macroaggregato, triennio A1/A2/A3 |
 | bdap_dlb_spese_serie | 2003-2026 | 3 | Disegno di Legge di Bilancio: spese per amministrazione/missione/programma/macroaggregato, triennio A1/A2/A3 |
 | bdap_rnd_spese_capitolo | 2011-2025 | 4 | Consuntivo di competenza per capitolo: previsione definitiva, pagato, rimasto da pagare, economie |
+| bdap_rnd_entrate_articolo | 2011-2025 | 4 | Consuntivo entrate per articolo: previsione definitiva, accertato, versato, residui |
 
 > **Nota 2017**: la vista BDAP aggregata per missione/programma/macroaggregato (`bdap_spese_stato`) omette una quota del programma "Garanzia dei diritti dei cittadini" finanziata dal Ministero dell'Economia (~10,4 mld CS). La vista per amministrazione (`bdap_rnd_spese_serie`) la include: per il 2017 il totale CS è 914,8 mld contro 904,2 della vista aggregata. Il delta è documentato, non corretto a valle.
 
-### Mart analitici (29 totali)
+> **Nota 2024 (entrate)**: la vista aggregata per titolo/natura/tipologia/provento (`bdap_entrate_stato`) perde ~3,8 mld di previsione definitiva CP nel 2024 rispetto al dettaglio per articolo (`bdap_rnd_entrate_articolo`). Sugli altri anni i totali coincidono.
+
+### Mart analitici (33 totali)
 
 **Saldi** (3): mart_saldi_anno, mart_composizione_spesa, mart_avanzo_primario
 
@@ -51,6 +54,8 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 **Serie a tre stadi** (9): per ciascuno di DLB, LB e Rendiconto — mart_*_spese_anno, mart_*_spese_missione, mart_*_spese_amministrazione
 
 **Consuntivo capitolo** (4): mart_capitolo, mart_anno, mart_missione, mart_amministrazione
+
+**Consuntivo entrate** (4): mart_articolo, mart_anno, mart_titolo, mart_amministrazione
 
 ## Dashboard
 
@@ -97,6 +102,7 @@ datasets/                   # Pipeline toolkit (9 dataset)
   bdap-lb-spese-serie/
   bdap-dlb-spese-serie/
   bdap-rnd-spese-capitolo/
+  bdap-rnd-entrate-articolo/
 dashboard/                  # Streamlit (7 pagine)
 notebooks/                  # Analisi legacy (Discussion)
 Makefile                    # PREFIX=bdap, YEARS=all

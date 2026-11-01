@@ -582,6 +582,173 @@
       ]
     },
     {
+      "slug": "bdap_rnd_entrate_articolo",
+      "name": "Bdap Rnd Entrate Articolo",
+      "description": "Rendiconto Pubblicato Elaborabile — Entrate per articolo, 2011-2025. Previsioni iniziali/variazioni/definitive, versato, rimasto da versare, rimasto da riscuotere e totale per CP/CS/RS. E' il consuntivo delle entrate: accertato e riscosso ricostruibili dalle colonne di totale e riscosso.",
+      "source": "",
+      "source_id": "openbdap",
+      "period": {
+        "start": 2011,
+        "end": 2025
+      },
+      "tags": [
+        "finanza-pubblica",
+        "bdap",
+        "entrate",
+        "rendiconto",
+        "consuntivo",
+        "bilancio-stato"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "stato_previsione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "amministrazione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "capitolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "articolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "natura",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "tipologia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "provento",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "categoria",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "prev_iniziali_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "variazioni_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prev_def_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "versato_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimasto_versare_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimasto_riscuotere_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prev_def_cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "versato_cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "riscosso_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/bilancio-pubblico/bdap_rnd_entrate_articolo/*/bdap_rnd_entrate_articolo_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "bdap_rnd_entrate_articolo__mart_articolo",
+        "bdap_rnd_entrate_articolo__mart_anno",
+        "bdap_rnd_entrate_articolo__mart_titolo",
+        "bdap_rnd_entrate_articolo__mart_amministrazione"
+      ]
+    },
+    {
       "slug": "bdap_rnd_spese_capitolo",
       "name": "Bdap Rnd Spese Capitolo",
       "description": "Rendiconto Pubblicato Elaborabile — Spese per capitolo, 2011-2025. Previsioni iniziali/variazioni/definitive, pagato, rimasto da pagare, totale ed economie per CP/CS/RS. E' il consuntivo di competenza: l'impegnato e' ricostruibile come pagato + rimasto da pagare.",
@@ -1356,6 +1523,46 @@
       }
     },
     {
+      "slug": "bdap_rnd_entrate_articolo__mart_amministrazione",
+      "dataset": "bdap_rnd_entrate_articolo",
+      "table": "mart_amministrazione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_entrate_articolo/*/mart_amministrazione.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_entrate_articolo__mart_anno",
+      "dataset": "bdap_rnd_entrate_articolo",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_entrate_articolo/*/mart_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_entrate_articolo__mart_articolo",
+      "dataset": "bdap_rnd_entrate_articolo",
+      "table": "mart_articolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_entrate_articolo/*/mart_articolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_entrate_articolo__mart_titolo",
+      "dataset": "bdap_rnd_entrate_articolo",
+      "table": "mart_titolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_entrate_articolo/*/mart_titolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
       "slug": "bdap_rnd_spese_capitolo__mart_amministrazione",
       "dataset": "bdap_rnd_spese_capitolo",
       "table": "mart_amministrazione",
@@ -1657,6 +1864,37 @@
         "started_at": "2026-09-04T10:27:18.500469+00:00",
         "finished_at": "2026-09-04T10:27:20.896440+00:00",
         "duration_seconds": 2.396
+      }
+    },
+    {
+      "id": "bdap_rnd_entrate_articolo",
+      "source_id": "openbdap",
+      "status": "ok",
+      "label": "bdap_rnd_entrate_articolo",
+      "detail": "anni 2011-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261101T154326Z_d8986bb1",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 2068,
+          "clean": 2068,
+          "mart": 2088
+        },
+        "output_bytes": {
+          "raw": 1636953,
+          "clean": 73787,
+          "mart": 48710
+        },
+        "started_at": "2026-11-01T15:43:26.386695+00:00",
+        "finished_at": "2026-11-01T15:43:32.617024+00:00",
+        "duration_seconds": 6.23
       }
     },
     {
@@ -1994,6 +2232,12 @@
             "semantic_type": "year"
           },
           {
+            "slug": "bdap_rnd_entrate_articolo",
+            "name": "Bdap Rnd Entrate Articolo",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
             "slug": "bdap_rnd_spese_capitolo",
             "name": "Bdap Rnd Spese Capitolo",
             "column": "anno",
@@ -2025,7 +2269,7 @@
           }
         ],
         "types": {
-          "year": 10
+          "year": 11
         }
       }
     },
