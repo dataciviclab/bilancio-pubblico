@@ -5,6 +5,96 @@
   "updated_at": "2026-11-01",
   "datasets": [
     {
+      "slug": "bdap_dlb_spese_serie",
+      "name": "Bdap Dlb Spese Serie",
+      "description": "Disegno di Legge di Bilancio Presentato — Spese per Amministrazione/Missione/Programma/Macroaggregato, serie storica. Previsioni del governo su tre annualità (A1 = anno di bilancio, A2/A3 = anni successivi). Missione e programma sono vuoti negli anni più vecchi.",
+      "source": "",
+      "source_id": "openbdap",
+      "period": {
+        "start": 2003,
+        "end": 2026
+      },
+      "tags": [
+        "finanza-pubblica",
+        "bdap",
+        "spese",
+        "disegno-legge-bilancio",
+        "bilancio-stato",
+        "serie-storica"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "annualita",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "stato_previsione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "amministrazione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "missione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "programma",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "macroaggregato",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/bilancio-pubblico/bdap_dlb_spese_serie/2026/bdap_dlb_spese_serie_2026_clean.parquet",
+        "multi_file": false
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "bdap_dlb_spese_serie__mart_dlb_spese_anno",
+        "bdap_dlb_spese_serie__mart_dlb_spese_missione",
+        "bdap_dlb_spese_serie__mart_dlb_spese_amministrazione"
+      ]
+    },
+    {
       "slug": "bdap_entrate_stato",
       "name": "Bdap Entrate Stato",
       "description": "Entrate dello Stato per Titolo/Natura/Tipologia/Provento — Previsioni Definitive CP/CS. Serie storica 2008-2024.",
@@ -271,6 +361,96 @@
       ]
     },
     {
+      "slug": "bdap_lb_spese_serie",
+      "name": "Bdap Lb Spese Serie",
+      "description": "Legge di Bilancio Pubblicata — Spese per Amministrazione/Missione/Programma/Macroaggregato, serie storica. Previsioni iniziali su tre annualità (A1 = anno di bilancio, A2/A3 = anni successivi). Missione e programma sono vuoti negli anni più vecchi.",
+      "source": "",
+      "source_id": "openbdap",
+      "period": {
+        "start": 2003,
+        "end": 2026
+      },
+      "tags": [
+        "finanza-pubblica",
+        "bdap",
+        "spese",
+        "legge-bilancio",
+        "bilancio-stato",
+        "serie-storica"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "annualita",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "stato_previsione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "amministrazione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "missione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "programma",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "macroaggregato",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/bilancio-pubblico/bdap_lb_spese_serie/2026/bdap_lb_spese_serie_2026_clean.parquet",
+        "multi_file": false
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "bdap_lb_spese_serie__mart_lb_spese_anno",
+        "bdap_lb_spese_serie__mart_lb_spese_missione",
+        "bdap_lb_spese_serie__mart_lb_spese_amministrazione"
+      ]
+    },
+    {
       "slug": "bdap_pagamenti_stato",
       "name": "Bdap Pagamenti Stato",
       "description": "Consuntivo pagamenti Bilancio dello Stato per Amministrazione/Missione/Categoria Economica. 2014-2025.",
@@ -399,6 +579,460 @@
         "bdap_pagamenti_stato__mart_pagamenti_missione_categoria",
         "bdap_pagamenti_stato__mart_pagamenti_anno",
         "bdap_pagamenti_stato__mart_costo_debito_bilancio"
+      ]
+    },
+    {
+      "slug": "bdap_rnd_entrate_articolo",
+      "name": "Bdap Rnd Entrate Articolo",
+      "description": "Rendiconto Pubblicato Elaborabile — Entrate per articolo, 2011-2025. Previsioni iniziali/variazioni/definitive, versato, rimasto da versare, rimasto da riscuotere e totale per CP/CS/RS. E' il consuntivo delle entrate: accertato e riscosso ricostruibili dalle colonne di totale e riscosso.",
+      "source": "",
+      "source_id": "openbdap",
+      "period": {
+        "start": 2011,
+        "end": 2025
+      },
+      "tags": [
+        "finanza-pubblica",
+        "bdap",
+        "entrate",
+        "rendiconto",
+        "consuntivo",
+        "bilancio-stato"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "stato_previsione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "amministrazione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "capitolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "articolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "natura",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "tipologia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "provento",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "categoria",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "prev_iniziali_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "variazioni_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prev_def_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "versato_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimasto_versare_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimasto_riscuotere_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prev_def_cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "versato_cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "riscosso_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/bilancio-pubblico/bdap_rnd_entrate_articolo/*/bdap_rnd_entrate_articolo_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "bdap_rnd_entrate_articolo__mart_articolo",
+        "bdap_rnd_entrate_articolo__mart_anno",
+        "bdap_rnd_entrate_articolo__mart_titolo",
+        "bdap_rnd_entrate_articolo__mart_amministrazione"
+      ]
+    },
+    {
+      "slug": "bdap_rnd_spese_capitolo",
+      "name": "Bdap Rnd Spese Capitolo",
+      "description": "Rendiconto Pubblicato Elaborabile — Spese per capitolo, 2011-2025. Previsioni iniziali/variazioni/definitive, pagato, rimasto da pagare, totale ed economie per CP/CS/RS. E' il consuntivo di competenza: l'impegnato e' ricostruibile come pagato + rimasto da pagare.",
+      "source": "",
+      "source_id": "openbdap",
+      "period": {
+        "start": 2011,
+        "end": 2025
+      },
+      "tags": [
+        "finanza-pubblica",
+        "bdap",
+        "spese",
+        "rendiconto",
+        "consuntivo",
+        "residui",
+        "capitolo",
+        "bilancio-stato"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "stato_previsione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "amministrazione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "capitolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "denominazione_capitolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_categoria",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "categoria",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_missione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "missione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "codice_programma",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "programma",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "prev_iniziali_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "variazioni_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prev_def_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "pagato_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimasto_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "economie_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prev_def_cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "pagato_cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prev_def_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "pagato_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimasto_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/bilancio-pubblico/bdap_rnd_spese_capitolo/*/bdap_rnd_spese_capitolo_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "bdap_rnd_spese_capitolo__mart_capitolo",
+        "bdap_rnd_spese_capitolo__mart_anno",
+        "bdap_rnd_spese_capitolo__mart_missione",
+        "bdap_rnd_spese_capitolo__mart_amministrazione"
+      ]
+    },
+    {
+      "slug": "bdap_rnd_spese_serie",
+      "name": "Bdap Rnd Spese Serie",
+      "description": "Rendiconto Pubblicato — Spese per Amministrazione/Missione/Programma/Macroaggregato, serie storica. Previsioni definitive CP/CS (NON consuntivo di cassa: per pagato e residui serve il Rendiconto Elaborabile per Capitolo).",
+      "source": "",
+      "source_id": "openbdap",
+      "period": {
+        "start": 2008,
+        "end": 2025
+      },
+      "tags": [
+        "finanza-pubblica",
+        "bdap",
+        "spese",
+        "rendiconto",
+        "bilancio-stato",
+        "serie-storica"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "annualita",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "stato_previsione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "amministrazione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "missione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "programma",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "macroaggregato",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/bilancio-pubblico/bdap_rnd_spese_serie/2025/bdap_rnd_spese_serie_2025_clean.parquet",
+        "multi_file": false
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "bdap_rnd_spese_serie__mart_rnd_spese_anno",
+        "bdap_rnd_spese_serie__mart_rnd_spese_missione",
+        "bdap_rnd_spese_serie__mart_rnd_spese_amministrazione"
       ]
     },
     {
@@ -749,6 +1383,36 @@
   ],
   "marts": [
     {
+      "slug": "bdap_dlb_spese_serie__mart_dlb_spese_amministrazione",
+      "dataset": "bdap_dlb_spese_serie",
+      "table": "mart_dlb_spese_amministrazione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_spese_serie/2026/mart_dlb_spese_amministrazione.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "bdap_dlb_spese_serie__mart_dlb_spese_anno",
+      "dataset": "bdap_dlb_spese_serie",
+      "table": "mart_dlb_spese_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_spese_serie/2026/mart_dlb_spese_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "bdap_dlb_spese_serie__mart_dlb_spese_missione",
+      "dataset": "bdap_dlb_spese_serie",
+      "table": "mart_dlb_spese_missione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_spese_serie/2026/mart_dlb_spese_missione.parquet",
+        "multi_file": false
+      }
+    },
+    {
       "slug": "bdap_entrate_stato__mart_entrate_anno",
       "dataset": "bdap_entrate_stato",
       "table": "mart_entrate_anno",
@@ -799,6 +1463,36 @@
       }
     },
     {
+      "slug": "bdap_lb_spese_serie__mart_lb_spese_amministrazione",
+      "dataset": "bdap_lb_spese_serie",
+      "table": "mart_lb_spese_amministrazione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_lb_spese_serie/2026/mart_lb_spese_amministrazione.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "bdap_lb_spese_serie__mart_lb_spese_anno",
+      "dataset": "bdap_lb_spese_serie",
+      "table": "mart_lb_spese_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_lb_spese_serie/2026/mart_lb_spese_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "bdap_lb_spese_serie__mart_lb_spese_missione",
+      "dataset": "bdap_lb_spese_serie",
+      "table": "mart_lb_spese_missione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_lb_spese_serie/2026/mart_lb_spese_missione.parquet",
+        "multi_file": false
+      }
+    },
+    {
       "slug": "bdap_pagamenti_stato__mart_costo_debito_bilancio",
       "dataset": "bdap_pagamenti_stato",
       "table": "mart_costo_debito_bilancio",
@@ -826,6 +1520,116 @@
         "type": "gcs",
         "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_pagamenti_stato/*/mart_pagamenti_missione_categoria.parquet",
         "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_entrate_articolo__mart_amministrazione",
+      "dataset": "bdap_rnd_entrate_articolo",
+      "table": "mart_amministrazione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_entrate_articolo/*/mart_amministrazione.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_entrate_articolo__mart_anno",
+      "dataset": "bdap_rnd_entrate_articolo",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_entrate_articolo/*/mart_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_entrate_articolo__mart_articolo",
+      "dataset": "bdap_rnd_entrate_articolo",
+      "table": "mart_articolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_entrate_articolo/*/mart_articolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_entrate_articolo__mart_titolo",
+      "dataset": "bdap_rnd_entrate_articolo",
+      "table": "mart_titolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_entrate_articolo/*/mart_titolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_spese_capitolo__mart_amministrazione",
+      "dataset": "bdap_rnd_spese_capitolo",
+      "table": "mart_amministrazione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_spese_capitolo/*/mart_amministrazione.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_spese_capitolo__mart_anno",
+      "dataset": "bdap_rnd_spese_capitolo",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_spese_capitolo/*/mart_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_spese_capitolo__mart_capitolo",
+      "dataset": "bdap_rnd_spese_capitolo",
+      "table": "mart_capitolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_spese_capitolo/*/mart_capitolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_spese_capitolo__mart_missione",
+      "dataset": "bdap_rnd_spese_capitolo",
+      "table": "mart_missione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_spese_capitolo/*/mart_missione.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_rnd_spese_serie__mart_rnd_spese_amministrazione",
+      "dataset": "bdap_rnd_spese_serie",
+      "table": "mart_rnd_spese_amministrazione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_spese_serie/2025/mart_rnd_spese_amministrazione.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "bdap_rnd_spese_serie__mart_rnd_spese_anno",
+      "dataset": "bdap_rnd_spese_serie",
+      "table": "mart_rnd_spese_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_spese_serie/2025/mart_rnd_spese_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "bdap_rnd_spese_serie__mart_rnd_spese_missione",
+      "dataset": "bdap_rnd_spese_serie",
+      "table": "mart_rnd_spese_missione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_rnd_spese_serie/2025/mart_rnd_spese_missione.parquet",
+        "multi_file": false
       }
     },
     {
@@ -911,6 +1715,37 @@
   ],
   "signals": [
     {
+      "id": "bdap_dlb_spese_serie",
+      "source_id": "openbdap",
+      "status": "ok",
+      "label": "bdap_dlb_spese_serie",
+      "detail": "anno 2026 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261101T160126Z_6d616f55",
+        "year": 2026,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 13177,
+          "clean": 39531,
+          "mart": 10464
+        },
+        "output_bytes": {
+          "raw": 3594908,
+          "clean": 264626,
+          "mart": 65471
+        },
+        "started_at": "2026-11-01T16:01:26.987860+00:00",
+        "finished_at": "2026-11-01T16:01:36.116855+00:00",
+        "duration_seconds": 9.129
+      }
+    },
+    {
       "id": "bdap_entrate_stato",
       "source_id": "openbdap",
       "status": "ok",
@@ -918,7 +1753,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261101T122710Z_32b9f671",
+        "run_id": "20261101T160140Z_004a16f7",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -936,9 +1771,9 @@
           "clean": 22545,
           "mart": 9463
         },
-        "started_at": "2026-11-01T12:27:10.707747+00:00",
-        "finished_at": "2026-11-01T12:27:14.505733+00:00",
-        "duration_seconds": 3.798
+        "started_at": "2026-11-01T16:01:40.605335+00:00",
+        "finished_at": "2026-11-01T16:01:44.626599+00:00",
+        "duration_seconds": 4.021
       }
     },
     {
@@ -949,7 +1784,7 @@
       "detail": "anni 2017-2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261101T122845Z_30683059",
+        "run_id": "20261101T160321Z_f240a085",
         "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
@@ -964,9 +1799,40 @@
           "raw": 5172527,
           "clean": 293539
         },
-        "started_at": "2026-11-01T12:28:45.197200+00:00",
-        "finished_at": "2026-11-01T12:28:55.431332+00:00",
-        "duration_seconds": 10.234
+        "started_at": "2026-11-01T16:03:21.492041+00:00",
+        "finished_at": "2026-11-01T16:03:32.715021+00:00",
+        "duration_seconds": 11.223
+      }
+    },
+    {
+      "id": "bdap_lb_spese_serie",
+      "source_id": "openbdap",
+      "status": "ok",
+      "label": "bdap_lb_spese_serie",
+      "detail": "anno 2026 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261101T160337Z_fe5dcf69",
+        "year": 2026,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 13875,
+          "clean": 41625,
+          "mart": 10764
+        },
+        "output_bytes": {
+          "raw": 3422462,
+          "clean": 275405,
+          "mart": 63696
+        },
+        "started_at": "2026-11-01T16:03:37.270652+00:00",
+        "finished_at": "2026-11-01T16:03:46.657797+00:00",
+        "duration_seconds": 9.387
       }
     },
     {
@@ -977,7 +1843,7 @@
       "detail": "anni 2014-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261101T122913Z_aa0dd348",
+        "run_id": "20261101T160404Z_3eb7a739",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -995,9 +1861,102 @@
           "clean": 19844,
           "mart": 7817
         },
-        "started_at": "2026-11-01T12:29:13.449202+00:00",
-        "finished_at": "2026-11-01T12:29:15.150430+00:00",
-        "duration_seconds": 1.701
+        "started_at": "2026-11-01T16:04:04.948141+00:00",
+        "finished_at": "2026-11-01T16:04:07.000702+00:00",
+        "duration_seconds": 2.053
+      }
+    },
+    {
+      "id": "bdap_rnd_entrate_articolo",
+      "source_id": "openbdap",
+      "status": "ok",
+      "label": "bdap_rnd_entrate_articolo",
+      "detail": "anni 2011-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261101T160530Z_2793fd92",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 2068,
+          "clean": 2068,
+          "mart": 2088
+        },
+        "output_bytes": {
+          "raw": 1636953,
+          "clean": 73787,
+          "mart": 48710
+        },
+        "started_at": "2026-11-01T16:05:30.078674+00:00",
+        "finished_at": "2026-11-01T16:05:35.658527+00:00",
+        "duration_seconds": 5.58
+      }
+    },
+    {
+      "id": "bdap_rnd_spese_capitolo",
+      "source_id": "openbdap",
+      "status": "ok",
+      "label": "bdap_rnd_spese_capitolo",
+      "detail": "anni 2011-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261101T160737Z_6833154c",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 5395,
+          "clean": 5395,
+          "mart": 5445
+        },
+        "output_bytes": {
+          "raw": 4196648,
+          "clean": 415378,
+          "mart": 306778
+        },
+        "started_at": "2026-11-01T16:07:37.674404+00:00",
+        "finished_at": "2026-11-01T16:07:47.508161+00:00",
+        "duration_seconds": 9.834
+      }
+    },
+    {
+      "id": "bdap_rnd_spese_serie",
+      "source_id": "openbdap",
+      "status": "ok",
+      "label": "bdap_rnd_spese_serie",
+      "detail": "anno 2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261101T160752Z_7d016fad",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 12609,
+          "clean": 12609,
+          "mart": 2972
+        },
+        "output_bytes": {
+          "raw": 2938938,
+          "clean": 144950,
+          "mart": 28076
+        },
+        "started_at": "2026-11-01T16:07:52.792737+00:00",
+        "finished_at": "2026-11-01T16:08:00.390583+00:00",
+        "duration_seconds": 7.598
       }
     },
     {
@@ -1008,7 +1967,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261101T122916Z_e46a014f",
+        "run_id": "20261101T160802Z_e84baad3",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1026,9 +1985,9 @@
           "clean": 7527,
           "mart": 9437
         },
-        "started_at": "2026-11-01T12:29:16.834386+00:00",
-        "finished_at": "2026-11-01T12:29:17.498864+00:00",
-        "duration_seconds": 0.664
+        "started_at": "2026-11-01T16:08:02.295123+00:00",
+        "finished_at": "2026-11-01T16:08:03.433028+00:00",
+        "duration_seconds": 1.138
       }
     },
     {
@@ -1039,7 +1998,7 @@
       "detail": "anni 2008-2023 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261101T123124Z_e6c81167",
+        "run_id": "20261101T161030Z_dc636f91",
         "year": 2023,
         "status": "SUCCESS",
         "quality_score": {
@@ -1057,9 +2016,9 @@
           "clean": 62187,
           "mart": 9115
         },
-        "started_at": "2026-11-01T12:31:24.968124+00:00",
-        "finished_at": "2026-11-01T12:31:34.303512+00:00",
-        "duration_seconds": 9.335
+        "started_at": "2026-11-01T16:10:30.212825+00:00",
+        "finished_at": "2026-11-01T16:10:40.424544+00:00",
+        "duration_seconds": 10.212
       }
     },
     {
@@ -1070,7 +2029,7 @@
       "detail": "anno 2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261101T123139Z_8e610bb6",
+        "run_id": "20261101T161044Z_680e0dd5",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1088,9 +2047,9 @@
           "clean": 133351,
           "mart": 20356
         },
-        "started_at": "2026-11-01T12:31:39.199810+00:00",
-        "finished_at": "2026-11-01T12:31:45.326394+00:00",
-        "duration_seconds": 6.127
+        "started_at": "2026-11-01T16:10:44.250673+00:00",
+        "finished_at": "2026-11-01T16:10:52.560781+00:00",
+        "duration_seconds": 8.31
       }
     }
   ],
@@ -1101,6 +2060,18 @@
         "entity": "Programma",
         "label": "Programma",
         "datasets": [
+          {
+            "slug": "bdap_dlb_spese_serie",
+            "name": "Bdap Dlb Spese Serie",
+            "column": "missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_dlb_spese_serie",
+            "name": "Bdap Dlb Spese Serie",
+            "column": "programma",
+            "semantic_type": "programma_code"
+          },
           {
             "slug": "bdap_lb_spese_missione",
             "name": "Bdap Lb Spese Missione",
@@ -1126,6 +2097,18 @@
             "semantic_type": "programma_code"
           },
           {
+            "slug": "bdap_lb_spese_serie",
+            "name": "Bdap Lb Spese Serie",
+            "column": "missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_lb_spese_serie",
+            "name": "Bdap Lb Spese Serie",
+            "column": "programma",
+            "semantic_type": "programma_code"
+          },
+          {
             "slug": "bdap_pagamenti_stato",
             "name": "Bdap Pagamenti Stato",
             "column": "codice_missione",
@@ -1135,6 +2118,42 @@
             "slug": "bdap_pagamenti_stato",
             "name": "Bdap Pagamenti Stato",
             "column": "missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_rnd_spese_capitolo",
+            "name": "Bdap Rnd Spese Capitolo",
+            "column": "codice_missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_rnd_spese_capitolo",
+            "name": "Bdap Rnd Spese Capitolo",
+            "column": "missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_rnd_spese_capitolo",
+            "name": "Bdap Rnd Spese Capitolo",
+            "column": "codice_programma",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_rnd_spese_capitolo",
+            "name": "Bdap Rnd Spese Capitolo",
+            "column": "programma",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_rnd_spese_serie",
+            "name": "Bdap Rnd Spese Serie",
+            "column": "missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_rnd_spese_serie",
+            "name": "Bdap Rnd Spese Serie",
+            "column": "programma",
             "semantic_type": "programma_code"
           },
           {
@@ -1175,13 +2194,19 @@
           }
         ],
         "types": {
-          "programma_code": 12
+          "programma_code": 22
         }
       },
       "Tempo": {
         "entity": "Tempo",
         "label": "Tempo / data",
         "datasets": [
+          {
+            "slug": "bdap_dlb_spese_serie",
+            "name": "Bdap Dlb Spese Serie",
+            "column": "anno",
+            "semantic_type": "year"
+          },
           {
             "slug": "bdap_entrate_stato",
             "name": "Bdap Entrate Stato",
@@ -1195,9 +2220,33 @@
             "semantic_type": "year"
           },
           {
+            "slug": "bdap_lb_spese_serie",
+            "name": "Bdap Lb Spese Serie",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
             "slug": "bdap_pagamenti_stato",
             "name": "Bdap Pagamenti Stato",
             "column": "esercizio_finanziario",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "bdap_rnd_entrate_articolo",
+            "name": "Bdap Rnd Entrate Articolo",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "bdap_rnd_spese_capitolo",
+            "name": "Bdap Rnd Spese Capitolo",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "bdap_rnd_spese_serie",
+            "name": "Bdap Rnd Spese Serie",
+            "column": "anno",
             "semantic_type": "year"
           },
           {
@@ -1220,11 +2269,24 @@
           }
         ],
         "types": {
-          "year": 6
+          "year": 11
         }
       }
     },
     "bridges": [
+      {
+        "from": {
+          "entity": "Programma",
+          "dataset": "bdap_dlb_spese_serie",
+          "via": "programma_code"
+        },
+        "to": {
+          "entity": "Progetto",
+          "bridge": "opencoesione_progetti_esteso",
+          "on": "CUP",
+          "semantic_type": "cup_code"
+        }
+      },
       {
         "from": {
           "entity": "Programma",
@@ -1241,7 +2303,46 @@
       {
         "from": {
           "entity": "Programma",
+          "dataset": "bdap_lb_spese_serie",
+          "via": "programma_code"
+        },
+        "to": {
+          "entity": "Progetto",
+          "bridge": "opencoesione_progetti_esteso",
+          "on": "CUP",
+          "semantic_type": "cup_code"
+        }
+      },
+      {
+        "from": {
+          "entity": "Programma",
           "dataset": "bdap_pagamenti_stato",
+          "via": "programma_code"
+        },
+        "to": {
+          "entity": "Progetto",
+          "bridge": "opencoesione_progetti_esteso",
+          "on": "CUP",
+          "semantic_type": "cup_code"
+        }
+      },
+      {
+        "from": {
+          "entity": "Programma",
+          "dataset": "bdap_rnd_spese_capitolo",
+          "via": "programma_code"
+        },
+        "to": {
+          "entity": "Progetto",
+          "bridge": "opencoesione_progetti_esteso",
+          "on": "CUP",
+          "semantic_type": "cup_code"
+        }
+      },
+      {
+        "from": {
+          "entity": "Programma",
+          "dataset": "bdap_rnd_spese_serie",
           "via": "programma_code"
         },
         "to": {
