@@ -37,7 +37,7 @@ st.info(
 )
 
 # --- Trend area chart ---
-st.subheader("Evoluzione composizione spesa (2008-2025)")
+st.subheader(f"Evoluzione composizione spesa ({int(df['anno'].min())}-{latest})")
 
 fig = go.Figure()
 for col_name, label, color in [

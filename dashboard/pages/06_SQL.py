@@ -4,7 +4,7 @@ from lab_connectors.duckdb.sql_page import render_sql_query
 from lab_connectors.registry import load_registry_github
 
 render_sql_query(
-    registry=load_registry_github("openbdap-saldi-storico-stato"),
+    registry=load_registry_github("bilancio-pubblico"),
     prefix="bilancio-pubblico/",
     default_slug="bdap_saldi_stato",
     title="🧪 Query SQL",
