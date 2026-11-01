@@ -15,7 +15,7 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 1. **Lo Stato è strutturalmente in deficit?** → saldi storici 2003-2025
 2. **Le spese correnti comprimono gli investimenti?** → composizione spesa per macroaggregato (trasferimenti/investimenti/debito/funzionamento)
 3. **Quanto pesano le entrate tributarie?** → trend entrate per titolo/natura
-4. **Quanto costa il debito a bilancio?** → consuntivo pagamenti missione 034
+4. **Quanto costa il debito a bilancio?** → interessi pagati e spesa della missione Debito (consuntivo pagamenti 034)
 5. **Come varia la spesa per missione?** → spese per DPCM Art.3
 6. **Il governo mantiene le promesse?** → confronto Legge di Bilancio vs Rendiconto per 34 missioni
 
@@ -67,7 +67,7 @@ Dashboard Streamlit con 7 pagine:
 | Composizione Spesa | Trend trasferimenti/investimenti/debito/funzionamento (2008-2025) |
 | Entrate | Trend totali, quote tributarie, top titoli per titolo/natura |
 | Spese per Missione | Top10 missioni per importo, trend spese totali |
-| Pagamenti e Debito | Trend pagati, costo debito (missione 034), top10 missioni |
+| Pagamenti e Debito | Trend pagati, interessi e spesa missione Debito (034), top10 missioni |
 | Query SQL | Query libere su tutti i mart |
 | Promesse vs Realtà | Gap LB → consuntivo per missione: dove la promessa è stata disattesa (2011-2025) |
 | Catena del Bilancio | Waterfall degli scostamenti DLB → LB → definitiva → impegnato → pagato |

@@ -97,14 +97,14 @@ if not df_comp.empty:
     st.caption(f"Anno: {latest_comp} · Totale: {row_comp['totale_mld']:.0f} mld")
 
 # --- Trend Debito Bilancio ---
-st.subheader("Costo del debito a bilancio")
+st.subheader("Interessi pagati sul debito")
 
 if not df_deb.empty:
     fig3 = go.Figure()
     fig3.add_trace(go.Scatter(
         x=df_deb["anno"],
-        y=df_deb["costo_debito_bilancio"] / 1e9,
-        name="Costo debito",
+        y=df_deb["interessi_pagati"] / 1e9,
+        name="Interessi pagati",
         line={"color": "#e74c3c", "width": 2},
         fill="tozeroy",
         fillcolor="rgba(231,76,60,0.1)",
