@@ -47,8 +47,18 @@ trend = trend.merge(rnd_t, on="anno", how="outer")
 trend = trend.merge(imp_t, on="anno", how="outer")
 trend = trend.merge(pag_t, on="anno", how="outer").sort_values("anno")
 
-anni = sorted(trend["anno"].dropna().astype(int).unique().tolist())
+def years(df):
+    return set(df["anno"].dropna().astype(int))
+
+
+# Solo gli anni con tutti gli stadi: il 2026 esiste per DLB/LB ma non per il consuntivo
+anni = sorted(years(dlb_t) & years(lb_t) & years(rnd_t) & years(imp_t))
+if not anni:
+    st.warning("Nessun anno con tutti gli stadi disponibili.")
+    st.stop()
+
 anno = st.selectbox("Anno di bilancio", anni, index=len(anni) - 1)
+trend = trend[trend["anno"].isin(anni)].sort_values("anno")
 row = trend[trend["anno"] == anno].iloc[0]
 
 
