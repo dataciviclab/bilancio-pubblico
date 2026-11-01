@@ -1,15 +1,19 @@
-"""Smoke test — verifica che tutte le pagine siano importabili senza errori."""
+"""Smoke test — verifica che tutte le pagine siano importabili ed eseguibili."""
 
 from __future__ import annotations
 
 import py_compile
+import sys
 from pathlib import Path
 
 import pytest
+from streamlit.testing.v1 import AppTest
 
 DASHBOARD_DIR = Path(__file__).resolve().parents[1]
 PAGES = sorted(DASHBOARD_DIR.glob("pages/*.py"))
 ROOT_FILES = [DASHBOARD_DIR / "app.py", DASHBOARD_DIR / "sources.py"]
+
+sys.path.insert(0, str(DASHBOARD_DIR))
 
 
 @pytest.mark.smoke
@@ -17,6 +21,15 @@ ROOT_FILES = [DASHBOARD_DIR / "app.py", DASHBOARD_DIR / "sources.py"]
 def test_page_importable(page: Path) -> None:
     """Ogni pagina deve essere syntatticamente valida."""
     py_compile.compile(str(page), doraise=True)
+
+
+@pytest.mark.smoke
+@pytest.mark.parametrize("page", PAGES, ids=[p.name for p in PAGES])
+def test_page_runs(page: Path) -> None:
+    """Ogni pagina deve eseguire senza eccezioni sui dati reali."""
+    at = AppTest.from_file(str(page), default_timeout=180)
+    at.run()
+    assert not at.exception, [str(e.value) for e in at.exception]
 
 
 @pytest.mark.smoke
