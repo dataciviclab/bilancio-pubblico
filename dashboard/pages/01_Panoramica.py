@@ -99,7 +99,7 @@ if not df_comp.empty:
 # --- Trend Debito Bilancio ---
 st.subheader("Interessi pagati sul debito")
 
-if not df_deb.empty:
+if not df_deb.empty and "interessi_pagati" in df_deb.columns:
     fig3 = go.Figure()
     fig3.add_trace(go.Scatter(
         x=df_deb["anno"],

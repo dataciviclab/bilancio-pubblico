@@ -21,7 +21,7 @@ prev = latest - 1
 row_pag = df_pag[df_pag["anno"] == latest].iloc[0]
 row_deb = (
     df_deb[df_deb["anno"] == latest].iloc[0]
-    if latest in df_deb["anno"].values
+    if latest in df_deb["anno"].values and "interessi_pagati" in df_deb.columns
     else None
 )
 
@@ -75,25 +75,28 @@ st.plotly_chart(fig, width="stretch")
 # --- Debito bilancio ---
 st.subheader("Missione Debito pubblico: interessi vs rimborsi")
 
-fig2 = go.Figure()
-fig2.add_trace(
-    go.Scatter(
-        x=df_deb["anno"],
-        y=df_deb["interessi_pagati"] / 1e9,
-        name="Interessi pagati",
-        line=dict(color="#e74c3c", width=2),
+if "interessi_pagati" in df_deb.columns:
+    fig2 = go.Figure()
+    fig2.add_trace(
+        go.Scatter(
+            x=df_deb["anno"],
+            y=df_deb["interessi_pagati"] / 1e9,
+            name="Interessi pagati",
+            line=dict(color="#e74c3c", width=2),
+        )
     )
-)
-fig2.add_trace(
-    go.Scatter(
-        x=df_deb["anno"],
-        y=df_deb["rimborsi_pagati"] / 1e9,
-        name="Rimborsi di capitale",
-        line=dict(color="#7f8c8d", width=2, dash="dot"),
+    fig2.add_trace(
+        go.Scatter(
+            x=df_deb["anno"],
+            y=df_deb["rimborsi_pagati"] / 1e9,
+            name="Rimborsi di capitale",
+            line=dict(color="#7f8c8d", width=2, dash="dot"),
+        )
     )
-)
-fig2.update_layout(yaxis_title="Milioni di €", height=350, margin={"t": 30})
-st.plotly_chart(fig2, width="stretch")
+    fig2.update_layout(yaxis_title="Milioni di €", height=350, margin={"t": 30})
+    st.plotly_chart(fig2, width="stretch")
+else:
+    st.info("Mart del debito non ancora aggiornato: dettaglio interessi non disponibile.")
 
 st.info(
     "📊 Per un'analisi approfondita del debito pubblico italiano — "
