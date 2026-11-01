@@ -1,5 +1,6 @@
-"""La catena del bilancio — dal disegno di legge al consuntivo."""
+"""La catena del bilancio — dove si genera lo scostamento tra gli stadi."""
 
+import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
 
@@ -13,8 +14,9 @@ from sources import (
 st.title("🔗 La catena del bilancio")
 
 st.caption(
-    "Quattro stadi: disegno di legge del governo → legge approvata dal Parlamento → "
-    "previsione definitiva → spese impegnate e pagate."
+    "Il percorso della spesa: disegno di legge del governo → legge approvata → "
+    "previsione definitiva → impegni → pagamenti. Qui si vede **dove** si genera lo scostamento; "
+    "l'esito per missione è in **Promesse vs Realtà**."
 )
 
 dlb = load_dlb_serie_missione()
@@ -45,22 +47,64 @@ trend = trend.merge(rnd_t, on="anno", how="outer")
 trend = trend.merge(imp_t, on="anno", how="outer")
 trend = trend.merge(pag_t, on="anno", how="outer").sort_values("anno")
 
-# --- Anno ---
 anni = sorted(trend["anno"].dropna().astype(int).unique().tolist())
 anno = st.selectbox("Anno di bilancio", anni, index=len(anni) - 1)
-
-# --- KPI scostamenti ---
 row = trend[trend["anno"] == anno].iloc[0]
 
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("DLB (governo)", f"€ {row.get('DLB', 0):,.0f} mld")
-c2.metric("LB (Parlamento)", f"€ {row.get('LB', 0):,.0f} mld", delta=f"{row.get('LB', 0) - row.get('DLB', 0):+,.0f} mld")
-c3.metric("Previsione definitiva", f"€ {row.get('Definitiva', 0):,.0f} mld", delta=f"{row.get('Definitiva', 0) - row.get('LB', 0):+,.0f} mld")
-c4.metric("Impegnato", f"€ {row.get('Impegnato', 0):,.0f} mld", delta=f"{row.get('Impegnato', 0) - row.get('Definitiva', 0):+,.0f} mld")
 
-# --- Trend ---
-st.subheader("I quattro stadi nel tempo")
-fig = go.Figure()
+def value(col):
+    v = row.get(col)
+    return 0.0 if pd.isna(v) else float(v)
+
+
+steps = ["DLB", "LB", "Definitiva", "Impegnato", "Pagato"]
+vals = {s: value(s) for s in steps}
+ys = [
+    vals["DLB"],
+    vals["LB"] - vals["DLB"],
+    vals["Definitiva"] - vals["LB"],
+    vals["Impegnato"] - vals["Definitiva"],
+    vals["Pagato"] - vals["Impegnato"],
+]
+measures = ["absolute", "relative", "relative", "relative", "relative"]
+texts = [f"{y:,.0f}" if m == "absolute" else f"{y:+,.0f}" for y, m in zip(ys, measures)]
+
+# --- Waterfall degli scostamenti ---
+st.subheader(f"Gli scostamenti tra gli stadi — {anno}")
+
+fig = go.Figure(
+    go.Waterfall(
+        x=steps,
+        y=ys,
+        measure=measures,
+        text=texts,
+        textposition="outside",
+        connector=dict(line=dict(color="#bdc3c7")),
+        increasing=dict(marker_color="#27ae60"),
+        decreasing=dict(marker_color="#c0392b"),
+        totals=dict(marker_color="#3498db"),
+    )
+)
+fig.update_layout(
+    yaxis_title="Miliardi di €",
+    height=420,
+    margin={"t": 40},
+    showlegend=False,
+)
+st.plotly_chart(fig, width="stretch")
+
+# --- Tabella scostamenti ---
+scost = pd.DataFrame(
+    {
+        "Passaggio": ["DLB → LB (Parlamento)", "LB → definitiva (assestamento)", "Definitiva → impegnato", "Impegnato → pagato"],
+        "Variazione (mld)": [ys[1], ys[2], ys[3], ys[4]],
+    }
+)
+st.dataframe(scost, width="stretch", hide_index=True)
+
+# --- Trend dei cinque stadi ---
+st.subheader("I cinque stadi nel tempo")
+fig2 = go.Figure()
 for col, color, dash in [
     ("DLB", "#8e44ad", "dot"),
     ("LB", "#3498db", "solid"),
@@ -69,9 +113,9 @@ for col, color, dash in [
     ("Pagato", "#2ecc71", "dot"),
 ]:
     if col in trend.columns:
-        fig.add_trace(go.Scatter(x=trend["anno"], y=trend[col], name=col, line=dict(color=color, width=2, dash=dash)))
-fig.update_layout(yaxis_title="Miliardi di €", height=420, margin={"t": 30}, legend=dict(orientation="h", y=-0.2))
-st.plotly_chart(fig, width="stretch")
+        fig2.add_trace(go.Scatter(x=trend["anno"], y=trend[col], name=col, line=dict(color=color, width=2, dash=dash)))
+fig2.update_layout(yaxis_title="Miliardi di €", height=420, margin={"t": 30}, legend=dict(orientation="h", y=-0.2))
+st.plotly_chart(fig2, width="stretch")
 
 # --- Per missione ---
 st.subheader(f"Per missione — {anno}")
@@ -90,21 +134,27 @@ for df, col, name, ann in [
     (lb, "cp_mld", "LB", 1),
     (rnd, "cp_mld", "Definitiva", 1),
     (cons, "totale_cp_mld", "Impegnato", None),
-    (cons, "pagato_cp_mld", "Pagato", None),
 ]:
     part = per_missione(df, col, ann).rename(columns={col: name})
     m = m.merge(part, on="missione", how="outer")
 m = m.fillna(0.0).sort_values("Impegnato", ascending=False)
 
 top = m.head(12).sort_values("Impegnato")
-fig2 = go.Figure()
+fig3 = go.Figure()
 for col, color in [("DLB", "#8e44ad"), ("LB", "#3498db"), ("Definitiva", "#f39c12"), ("Impegnato", "#e74c3c")]:
-    fig2.add_trace(go.Bar(y=top["missione"], x=top[col], name=col, orientation="h", marker_color=color))
-fig2.update_layout(barmode="group", xaxis_title="Miliardi di €", height=560, margin={"t": 30}, legend=dict(orientation="h", y=-0.12), yaxis=dict(categoryorder="array", categoryarray=top["missione"].tolist()))
-st.plotly_chart(fig2, width="stretch")
+    fig3.add_trace(go.Bar(y=top["missione"], x=top[col], name=col, orientation="h", marker_color=color))
+fig3.update_layout(
+    barmode="group",
+    xaxis_title="Miliardi di €",
+    height=560,
+    margin={"t": 30},
+    legend=dict(orientation="h", y=-0.12),
+    yaxis=dict(categoryorder="array", categoryarray=top["missione"].tolist()),
+)
+st.plotly_chart(fig3, width="stretch")
 
 st.info(
-    "DLB e LB qui sono le previsioni iniziali sull'anno di bilancio (annualità 1); "
+    "DLB e LB sono le previsioni iniziali sull'anno di bilancio (annualità 1); "
     "la definitiva è il bilancio dopo assestamento e variazioni; l'impegnato è pagato + residui. "
     "Missione e programma non esistono nei dati DLB/LB prima del 2008-2009."
 )

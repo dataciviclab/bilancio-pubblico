@@ -1,4 +1,4 @@
-"""Promesse vs Realtà — Legge di Bilancio, previsione definitiva e consuntivo di competenza."""
+"""Promesse vs Realtà — l'esito: quanto la previsione iniziale è stata rispettata."""
 
 import streamlit as st
 import plotly.graph_objects as go
@@ -12,8 +12,9 @@ from sources import (
 st.title("⚖️ Promesse vs Realtà")
 
 st.caption(
-    "Confronto tra ciò che il governo ha stanziato nella Legge di Bilancio, "
-    "la previsione definitiva e ciò che è stato effettivamente impegnato e pagato."
+    "Quanto la Legge di Bilancio è stata rispettata: scostamento tra previsione iniziale "
+    "e spese effettivamente impegnate e pagate. Per il percorso tra gli stadi vedi "
+    "**Catena del Bilancio**."
 )
 
 df_lb = load_lb_serie_missione()
@@ -43,68 +44,86 @@ if not anni:
     st.stop()
 
 anno = st.selectbox("Anno di bilancio", anni, index=len(anni) - 1)
-latest = anno
-
-# --- Trend aggregato ---
-st.subheader("Previsione vs realtà, anno per anno")
-
-lb_tot = lb.groupby("anno", as_index=False)["cp_mld"].sum()
-rnd_tot = rnd.groupby("anno", as_index=False)["cp_mld"].sum()
-imp_tot = impegnato.groupby("anno", as_index=False)["totale_cp_mld"].sum()
-pag_tot = pagato.groupby("anno", as_index=False)["pagato_cp_mld"].sum()
-
-fig = go.Figure()
-fig.add_trace(go.Scatter(x=lb_tot["anno"], y=lb_tot["cp_mld"], name="LB (previsione iniziale)", line=dict(color="#3498db", width=3)))
-fig.add_trace(go.Scatter(x=rnd_tot["anno"], y=rnd_tot["cp_mld"], name="Previsione definitiva", line=dict(color="#f39c12", width=2, dash="dot")))
-fig.add_trace(go.Scatter(x=imp_tot["anno"], y=imp_tot["totale_cp_mld"], name="Impegnato (consuntivo)", line=dict(color="#e74c3c", width=3)))
-fig.add_trace(go.Scatter(x=pag_tot["anno"], y=pag_tot["pagato_cp_mld"], name="Pagato (consuntivo)", line=dict(color="#2ecc71", width=2)))
-fig.update_layout(yaxis_title="Miliardi di €", height=400, margin={"t": 30}, legend=dict(orientation="h", y=-0.2))
-st.plotly_chart(fig, width="stretch")
-
-# --- KPI anno selezionato ---
-def val(df, col, a):
-    row = df[df["anno"] == a]
-    return float(row[col].sum()) if not row.empty else 0.0
 
 
-v_lb = val(lb_tot, "cp_mld", latest)
-v_rnd = val(rnd_tot, "cp_mld", latest)
-v_imp = val(imp_tot, "totale_cp_mld", latest)
-v_pag = val(pag_tot, "pagato_cp_mld", latest)
+def tot(df, col, a):
+    return float(df[df["anno"] == a][col].sum())
 
+
+v_lb = tot(lb, "cp_mld", anno)
+v_rnd = tot(rnd, "cp_mld", anno)
+v_imp = tot(impegnato, "totale_cp_mld", anno)
+v_pag = tot(pagato, "pagato_cp_mld", anno)
+
+# --- KPI: l'esito dell'anno ---
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("📋 LB (previsione)", f"€ {v_lb:,.0f} mld")
 c2.metric("📅 Previsione definitiva", f"€ {v_rnd:,.0f} mld", delta=f"{v_rnd - v_lb:+,.0f} mld")
-c3.metric("🧾 Impegnato", f"€ {v_imp:,.0f} mld", delta=f"{v_imp - v_rnd:+,.0f} mld")
+c3.metric("🧾 Impegnato", f"€ {v_imp:,.0f} mld", delta=f"{v_imp - v_lb:+,.0f} mld vs LB")
 c4.metric("💸 Pagato", f"€ {v_pag:,.0f} mld", delta=f"{(v_pag / v_imp - 1) * 100:+.1f}%" if v_imp else None)
 
-# --- Per missione ---
-st.subheader(f"Per missione — {latest}")
-
-base = lb[lb["anno"] == latest][["missione", "cp_mld"]].rename(columns={"cp_mld": "LB"})
-base = base.merge(rnd[rnd["anno"] == latest][["missione", "cp_mld"]].rename(columns={"cp_mld": "Prev. definitiva"}), on="missione", how="outer")
-base = base.merge(impegnato[impegnato["anno"] == latest][["missione", "totale_cp_mld"]].rename(columns={"totale_cp_mld": "Impegnato"}), on="missione", how="outer")
-base = base.merge(pagato[pagato["anno"] == latest][["missione", "pagato_cp_mld"]].rename(columns={"pagato_cp_mld": "Pagato"}), on="missione", how="outer")
+# --- Base per missione ---
+base = lb[lb["anno"] == anno][["missione", "cp_mld"]].rename(columns={"cp_mld": "LB"})
+base = base.merge(
+    rnd[rnd["anno"] == anno][["missione", "cp_mld"]].rename(columns={"cp_mld": "Prev. definitiva"}),
+    on="missione",
+    how="outer",
+)
+base = base.merge(
+    impegnato[impegnato["anno"] == anno][["missione", "totale_cp_mld"]].rename(columns={"totale_cp_mld": "Impegnato"}),
+    on="missione",
+    how="outer",
+)
+base = base.merge(
+    pagato[pagato["anno"] == anno][["missione", "pagato_cp_mld"]].rename(columns={"pagato_cp_mld": "Pagato"}),
+    on="missione",
+    how="outer",
+)
 base = base.fillna(0.0)
 
-base["Gap LB→impegnato %"] = base.apply(
+base["Gap mld"] = base["LB"] - base["Impegnato"]
+base["Gap %"] = base.apply(
     lambda r: round((r["LB"] - r["Impegnato"]) / r["Impegnato"] * 100, 1) if r["Impegnato"] else None,
     axis=1,
 )
-base = base.sort_values("Impegnato", ascending=False)
 
-top = base.head(12).sort_values("Impegnato")
-fig2 = go.Figure()
-fig2.add_trace(go.Bar(y=top["missione"], x=top["LB"], name="LB", orientation="h", marker_color="#3498db"))
-fig2.add_trace(go.Bar(y=top["missione"], x=top["Impegnato"], name="Impegnato", orientation="h", marker_color="#e74c3c"))
-fig2.add_trace(go.Bar(y=top["missione"], x=top["Pagato"], name="Pagato", orientation="h", marker_color="#2ecc71"))
-fig2.update_layout(barmode="group", xaxis_title="Miliardi di €", height=520, margin={"t": 30}, legend=dict(orientation="h", y=-0.12), yaxis=dict(categoryorder="array", categoryarray=top["missione"].tolist()))
-st.plotly_chart(fig2, width="stretch")
+# --- Dove la promessa è stata disattesa ---
+st.subheader(f"Dove la promessa è stata disattesa — {anno}")
 
+gap = base.reindex(base["Gap mld"].abs().sort_values(ascending=False).index).head(12)
+gap = gap.sort_values("Gap mld")
+colors = ["#c0392b" if v > 0 else "#27ae60" for v in gap["Gap mld"]]
+
+fig = go.Figure(
+    go.Bar(
+        x=gap["Gap mld"],
+        y=gap["missione"],
+        orientation="h",
+        marker_color=colors,
+        text=[f"{v:+,.1f}" for v in gap["Gap mld"]],
+        textposition="outside",
+    )
+)
+fig.add_vline(x=0, line_color="gray", line_width=1)
+fig.update_layout(
+    xaxis_title="LB − impegnato (miliardi di €)",
+    height=480,
+    margin={"t": 30, "l": 10},
+    yaxis=dict(categoryorder="array", categoryarray=gap["missione"].tolist()),
+)
+st.plotly_chart(fig, width="stretch")
+
+st.caption(
+    "Rosso: si è speso meno del previsto nella Legge di Bilancio. "
+    "Verde: si è speso più del previsto."
+)
+
+# --- Tabella completa ---
+st.subheader(f"Dettaglio per missione — {anno}")
 st.dataframe(
-    base[["missione", "LB", "Prev. definitiva", "Impegnato", "Pagato", "Gap LB→impegnato %"]].rename(
-        columns={"missione": "Missione"}
-    ),
+    base.sort_values("Impegnato", ascending=False)[
+        ["missione", "LB", "Prev. definitiva", "Impegnato", "Pagato", "Gap mld", "Gap %"]
+    ].rename(columns={"missione": "Missione"}),
     width="stretch",
     hide_index=True,
 )
