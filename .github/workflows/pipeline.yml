@@ -28,7 +28,6 @@ jobs:
       run-command: "make run-all"
       run-batch-command: "make run-batch"
       detect-paths: "datasets"
-      sync-pattern: "per-dataset"
     permissions:
       contents: write
       pull-requests: write
