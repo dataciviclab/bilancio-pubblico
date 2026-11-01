@@ -2,10 +2,12 @@
 --
 -- ATTENZIONE ALLA DEFINIZIONE: la missione 034 non è il solo costo per interessi.
 -- Contiene:
---   - INTERESSI PASSIVI E ALTRI ONERI FINANZIARI  -> interessi_pagati
+--   - interessi (categoria "INTERESSI PASSIVI E REDDITI DA CAPITALE" fino al 2022,
+--     "INTERESSI PASSIVI E ALTRI ONERI FINANZIARI" dal 2023) -> interessi_pagati
 --   - RIMBORSO PASSIVITA' FINANZIARIE             -> rimborsi_pagati
 --   - ACQUISIZIONI DI ATTIVITA' FINANZIARIE + CONSUMI INTERMEDI -> altri_oneri_debito
 --
+-- Il nome della categoria degli interessi cambia nel tempo: si usa il prefisso.
 -- Per il confronto con le stime OCPI (costo del debito) usare `interessi_pagati`.
 -- `spesa_missione_debito` è il totale della missione e include la restituzione del capitale.
 
@@ -15,22 +17,20 @@ WITH per_anno AS (
         SUM(totale_pagato) AS spesa_missione_debito,
         SUM(
             CASE
-                WHEN categoria = 'INTERESSI PASSIVI E ALTRI ONERI FINANZIARI' THEN totale_pagato
+                WHEN categoria LIKE 'INTERESSI PASSIVI%' THEN totale_pagato
                 ELSE 0
             END
         ) AS interessi_pagati,
         SUM(
             CASE
-                WHEN categoria = 'RIMBORSO PASSIVITA'' FINANZIARIE' THEN totale_pagato
+                WHEN categoria LIKE 'RIMBORSO PASSIVITA%' THEN totale_pagato
                 ELSE 0
             END
         ) AS rimborsi_pagati,
         SUM(
             CASE
-                WHEN categoria NOT IN (
-                    'INTERESSI PASSIVI E ALTRI ONERI FINANZIARI',
-                    'RIMBORSO PASSIVITA'' FINANZIARIE'
-                ) THEN totale_pagato
+                WHEN categoria NOT LIKE 'INTERESSI PASSIVI%'
+                 AND categoria NOT LIKE 'RIMBORSO PASSIVITA%' THEN totale_pagato
                 ELSE 0
             END
         ) AS altri_oneri_debito,
