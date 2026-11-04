@@ -2,6 +2,32 @@
 
 Questo changelog documenta le modifiche rilevanti al progetto.
 
+## feat/note-integrative - Programmazione per obiettivi
+Data: 2026-11-04
+
+### Aggiunto
+- **4 dataset** Note Integrative (openbdap, 2018-2025):
+  `bdap_ni_azioni` (DLB+LB+RND), `bdap_ni_indicatori` (DLB+LB+RND),
+  `bdap_ni_obiettivi` (DLB+LB), `bdap_ni_priorita` (LB+RND)
+- **1 support dataset** `bdap_ni_amministrazioni` (anagrafica STP → denominazione, 1 file per anno)
+- **5 mart**: priorità per amministrazione, obiettivi per natura, azioni con catena
+  DLB → LB → Rendiconto, indicatori con target numerico e % raggiunta, anagrafica
+- **Parsing dei target**: `target_anno1_valore` / `valore_rendiconto_valore` popolati
+  solo per valori numerici singoli (con eventuale operatore `>=`, `<=`, `>`, `<`),
+  normalizzando virgola decimale e punto delle migliaia
+
+### Note
+- Perimetro dal 2018: è l'anno in cui il bilancio è articolato in azioni e le Note
+  Integrative seguono missione → programma → azione. Il 2016-2017 usa uno schema diverso.
+- Il totale degli stanziamenti per azione coincide con `bdap_lb_spese_missione`
+  (2024: 1.215,1 mld CP): le due viste sono joinabili.
+- Fasi incluse solo dove aggiungono informazione: il rendiconto è escluso dagli
+  obiettivi (copia della LB) e il disegno di legge dalle priorità (copertura
+  incompleta, 6-12 ministeri su 15).
+- Chiavi composite obbligatorie: i codici ripartono dentro il livello padre
+  (azione per programma, obiettivo per CdR, indicatore per obiettivo).
+- Ogni mart espone `n_ministri_coperti` per rendere visibile la copertura della fase.
+
 ## v1.0 - Bilancio Intelligence (feat/bilancio-intelligence-setup)
 Data: 2026-08-30
 

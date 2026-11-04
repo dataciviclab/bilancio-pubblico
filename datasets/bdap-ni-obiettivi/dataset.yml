@@ -1,0 +1,92 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_ni_obiettivi"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, note-integrative, programmazione, obiettivi]
+  category: finanza-pubblica
+  description: "Note Integrative — Obiettivi strategici e strutturali delle amministrazioni centrali, collegati a missione, programma, azione e priorità politica, per anno e fase."
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage:
+    start_year: 2018
+    end_year: 2025
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "raw_bdap_ni_obiettivi_dlb"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_obiettivi_{year}_dlb.csv"
+        url_suffix_by_year:
+          2018: "7e0a150b-f008-4915-aff0-498e3ed66ea4.csv"
+          2019: "40c16e0e-a296-48cf-ae43-a761fb9f2f0d.csv"
+          2020: "a03d6dd8-8696-40cf-829a-14e983410adb.csv"
+          2021: "b1778867-7961-4643-aa0e-5c68152f742b.csv"
+          2022: "c7faac37-0a57-4f91-aedf-dda5cb758d13.csv"
+          2023: "7b8312f1-e772-4a36-9d1c-84e61e34517c.csv"
+          2024: "bb2e77aa-f025-41be-83fb-1e27d55365cd.csv"
+          2025: "49dafe12-3d50-4f68-989c-15f33b8ca23b.csv"
+      inject_column:
+        fase_codice: "DLB"
+      primary: true
+    - name: "raw_bdap_ni_obiettivi_lb"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_obiettivi_{year}_lb.csv"
+        url_suffix_by_year:
+          2018: "41ef57bb-dfb7-4de7-aaaa-4ca048981bb7.csv"
+          2019: "143a1b60-145f-4f4d-9f5c-73c1c159cc5a.csv"
+          2020: "05bc8f24-1a0a-45d9-ac8e-e4cb021a44fb.csv"
+          2021: "8cd3e437-c306-45a2-8fdd-9f0af7c2a814.csv"
+          2022: "f1a703d3-1453-44a5-ba2b-644139827e92.csv"
+          2023: "849bb6be-a706-46e2-ae43-dd145b4db19b.csv"
+          2024: "98e60cea-df42-41d6-a85c-9666c9aaeebc.csv"
+          2025: "b17e101d-2887-42ca-b5ba-e8120bc49ff7.csv"
+      inject_column:
+        fase_codice: "LB"
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: [anno, fase, stp, amministrazione, missione_codice, missione, programma_codice, programma, obiettivo_codice, obiettivo, natura_obiettivo]
+  read:
+    source: auto
+    mode: "all"
+    header: true
+    delim: ";"
+    encoding: "cp1252"
+    all_varchar: true
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+
+  validate:
+    not_null: [anno, fase, stp, obiettivo_codice]
+    min_rows: 200
+
+mart:
+  tables:
+    - name: "mart_obiettivi_anno"
+      sql: "sql/mart_obiettivi_anno.sql"
+      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  required_tables:
+    - "mart_obiettivi_anno"
+  validate:
+    table_rules:
+      mart_obiettivi_anno:
+        min_rows: 1
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal

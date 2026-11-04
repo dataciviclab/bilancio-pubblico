@@ -1,0 +1,64 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_ni_amministrazioni"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, note-integrative, anagrafica, support]
+  category: support
+  description: "Anagrafica delle amministrazioni centrali delle Note Integrative: codice STP, denominazione e forma breve, per anno e fase."
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "raw_bdap_ni_amministrazioni_rnd"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_amministrazioni_{year}_rnd.csv"
+        url_suffix_by_year:
+          2018: "7e624156-d388-4208-9202-58fb80e6f2ba.csv"
+          2019: "54f79a8d-4ac6-4def-81ea-be08c730afe2.csv"
+          2020: "85ed60f7-3667-462d-a236-286785b5370d.csv"
+          2021: "ae7c0836-635f-44eb-9b3e-9faf33814be5.csv"
+          2022: "43ec0a07-d381-4554-9ca2-db3b9bc59844.csv"
+          2023: "343146b8-db19-44b5-8522-1d454cc04699.csv"
+          2024: "cbbabf28-387e-4dc7-8d60-1d2143784e64.csv"
+          2025: "71825637-cd5d-46fa-81ff-0da81c3a6895.csv"
+      inject_column:
+        fase_codice: "RND"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: [anno, fase, stp, amministrazione, amministrazione_breve]
+  read:
+    source: auto
+    mode: "all"
+    header: true
+    delim: ";"
+    encoding: "cp1252"
+    all_varchar: true
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+  validate:
+    not_null: [anno, fase, stp, amministrazione]
+    min_rows: 10
+
+mart:
+  tables:
+    - name: "mart_amministrazioni"
+      sql: "sql/mart_amministrazioni.sql"
+  required_tables:
+    - "mart_amministrazioni"
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal

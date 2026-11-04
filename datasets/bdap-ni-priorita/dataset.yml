@@ -1,0 +1,97 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_ni_priorita"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, note-integrative, programmazione, priorita-politiche]
+  category: finanza-pubblica
+  description: "Note Integrative — Priorità politiche delle amministrazioni centrali: il testo con cui ogni ministero dichiara cosa intende fare, per anno e per fase (disegno di legge, legge, rendiconto)."
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage:
+    start_year: 2018
+    end_year: 2025
+
+support:
+  - name: "bdap_ni_amministrazioni"
+    config: "../../support/anagrafica-amministrazioni/dataset.yml"
+    years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "raw_bdap_ni_priorita_lb"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_priorita_{year}_lb.csv"
+        url_suffix_by_year:
+          2018: "13f8e222-d4f3-42a1-8a97-1f0f51de1e7c.csv"
+          2019: "6978a9ab-1811-47cf-8ee1-3b47dfd64204.csv"
+          2020: "94dee28f-209c-412f-a0b5-e4f54a86eff1.csv"
+          2021: "6e1fffcc-713c-48b1-b987-3c353102721f.csv"
+          2022: "b179bef5-1b6b-4563-b05b-4ccc3178e5b7.csv"
+          2023: "0e7807a3-f823-4872-9589-7ad8febfd3f5.csv"
+          2024: "af39b1df-dec5-4003-be13-19544f5d87a4.csv"
+          2025: "e2eb4e72-0734-40a9-bb16-4c3fa2aaf523.csv"
+      inject_column:
+        fase_codice: "LB"
+      primary: true
+    - name: "raw_bdap_ni_priorita_rnd"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_priorita_{year}_rnd.csv"
+        url_suffix_by_year:
+          2018: "a2eef481-b1af-4978-ba5a-c2925f27c1ab.csv"
+          2019: "1299263b-5bf6-45af-a24e-f03ccfbe0490.csv"
+          2020: "ee02b9c1-6986-41ca-b22e-ba3f095e92d9.csv"
+          2021: "7b746497-5c2d-469c-b27b-a5f39f223292.csv"
+          2022: "16b83ec3-a09b-43c7-aaed-d98f60f85637.csv"
+          2023: "e821f89e-4143-43b4-885b-1941f06685b4.csv"
+          2024: "e26173bd-789b-4dd7-9e31-e8245ca21fdf.csv"
+          2025: "dc10c7f2-e71d-4814-89c9-174e630a7218.csv"
+      inject_column:
+        fase_codice: "RND"
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: [anno, fase, stp, amministrazione, codice_priorita, priorita, contenuto]
+  read:
+    source: auto
+    mode: "all"
+    header: true
+    delim: ";"
+    encoding: "cp1252"
+    all_varchar: true
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+
+  validate:
+    not_null: [anno, fase, stp, codice_priorita]
+    min_rows: 50
+
+mart:
+  tables:
+    - name: "mart_priorita_anno"
+      sql: "sql/mart_priorita_anno.sql"
+      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  required_tables:
+    - "mart_priorita_anno"
+  validate:
+    table_rules:
+      mart_priorita_anno:
+        min_rows: 1
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal

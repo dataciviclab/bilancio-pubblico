@@ -1,0 +1,111 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_ni_indicatori"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, note-integrative, programmazione, indicatori, target]
+  category: finanza-pubblica
+  description: "Note Integrative — Indicatori di risultato con target triennale e valore a rendiconto: il confronto tra promesso e realizzato, obiettivo per obiettivo."
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage:
+    start_year: 2018
+    end_year: 2025
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "raw_bdap_ni_indicatori_dlb"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_indicatori_{year}_dlb.csv"
+        url_suffix_by_year:
+          2018: "28c47732-90c0-46c8-8c17-858ff378ed49.csv"
+          2019: "8fd57ce2-a73e-4914-ac31-27e4cf17ee9c.csv"
+          2020: "102b8692-e8c7-4759-b58b-2ac335f3af7b.csv"
+          2021: "ee65a849-f038-4e4d-b9fd-0d314c608c05.csv"
+          2022: "99299096-08cb-45e8-ada6-7dde3469ae60.csv"
+          2023: "d6aaed89-5aaf-4305-8641-33269ffa396d.csv"
+          2024: "a4263817-2225-4204-802d-83d83e512294.csv"
+          2025: "a40317ac-f302-4889-898a-90e0ab889c99.csv"
+      inject_column:
+        fase_codice: "DLB"
+      primary: true
+    - name: "raw_bdap_ni_indicatori_lb"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_indicatori_{year}_lb.csv"
+        url_suffix_by_year:
+          2018: "20e0712b-fb9d-4edd-a9f8-367d2d7fb57e.csv"
+          2019: "8e9ac3b2-6019-4ff0-b8fb-daa78600ccb3.csv"
+          2020: "4beab05e-45bb-4ab6-90cf-df2b8e451317.csv"
+          2021: "d88e6ee1-2631-4a56-887e-3921c0af928a.csv"
+          2022: "1956bddc-7240-4e99-816d-3d89561157da.csv"
+          2023: "09b53fa6-abf7-403a-822d-6fd05d9b1287.csv"
+          2024: "dfa2b4b2-8d28-4faa-9a07-81571017002f.csv"
+          2025: "192ffe48-4258-49c3-9d40-96214776a561.csv"
+      inject_column:
+        fase_codice: "LB"
+    - name: "raw_bdap_ni_indicatori_rnd"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_indicatori_{year}_rnd.csv"
+        url_suffix_by_year:
+          2018: "602efc99-a379-4703-a7a5-a875cd059f38.csv"
+          2019: "2d012e05-922a-42ac-bec1-17e9ad22d32d.csv"
+          2020: "733b39af-354b-4e26-8e7a-c25247826093.csv"
+          2021: "1837ecb7-d5c1-4640-b0a5-546cb70472f8.csv"
+          2022: "d1ecd133-cdcd-40e6-b810-190276feed57.csv"
+          2023: "dd0d0488-f4da-4d5c-ac4b-16fae2c3b5a6.csv"
+          2024: "3c246bbd-1508-4f9f-bd77-7a7b9b4ab032.csv"
+          2025: "2969c86d-d214-4236-b844-b7e9058508d8.csv"
+      inject_column:
+        fase_codice: "RND"
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: [anno, fase, stp, amministrazione, obiettivo_codice, indicatore_codice, indicatore, tipo_indicatore, target_anno1]
+  read:
+    source: auto
+    mode: "all"
+    header: true
+    delim: ";"
+    encoding: "cp1252"
+    all_varchar: true
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+
+  validate:
+    not_null: [anno, fase, stp, indicatore_codice]
+    min_rows: 300
+
+mart:
+  tables:
+    - name: "mart_indicatori_anno"
+      sql: "sql/mart_indicatori_anno.sql"
+      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  required_tables:
+    - "mart_indicatori_anno"
+  validate:
+    table_rules:
+      mart_indicatori_anno:
+        min_rows: 1
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal
