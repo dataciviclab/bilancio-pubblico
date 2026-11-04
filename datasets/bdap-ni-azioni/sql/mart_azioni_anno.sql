@@ -38,7 +38,8 @@ SELECT
     ROUND(a.def_cp / 1e9, 3) AS stanziamento_definitivo_cp_mld,
     ROUND(a.imp_cp / 1e9, 3) AS impegnato_cp_mld,
     ROUND(a.pag_cp / 1e9, 3) AS pagato_cp_mld,
-    ROUND(100.0 * a.imp_cp / NULLIF(a.cp, 0), 2) AS pct_impegnato_su_stanziamento,
+    ROUND(100.0 * a.imp_cp / NULLIF(a.def_cp, 0), 2)   AS pct_impegnato_su_definitivo,
+    ROUND(100.0 * a.def_cp / NULLIF(a.cp, 0), 2)      AS pct_definitivo_su_stanziamento,
     c.n_ministri_coperti
 FROM agg a
 JOIN cop c ON c.anno = a.anno AND c.fase = a.fase
