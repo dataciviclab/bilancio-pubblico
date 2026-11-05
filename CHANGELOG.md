@@ -24,7 +24,7 @@ Data: 2026-11-04
 - Fasi incluse solo dove aggiungono informazione: il rendiconto è escluso dagli
   obiettivi (copia della LB) e il disegno di legge dalle priorità (copertura
   incompleta, 6-12 ministeri su 15). Il DLB resta su azioni e indicatori perché
-  cambia il perimetro (29-38% degli importi, 12-30% delle chiavi), non perché
+  cambia il perimetro (16,7-22,0% degli importi, 11,9-29,7% delle chiavi), non perché
   sposti i target numerici (8-12%).
 - Chiavi composite obbligatorie: i codici ripartono dentro il livello padre
   (azione per programma, obiettivo per CdR, indicatore per obiettivo).
