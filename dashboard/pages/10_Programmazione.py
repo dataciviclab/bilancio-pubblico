@@ -92,9 +92,16 @@ spesa = (
 fin = rnd.groupby("stp", as_index=False).agg(
     amministrazione=("amministrazione", "max"),
     n_indicatori=("n_indicatori", "sum"),
-    pct_numeric=("pct_target_numerico", "mean"),
-    pct_raggiunto=("pct_target_raggiunto", "mean"),
+    n_target_numerico=("n_target_numerico", "sum"),
+    n_confrontabili=("n_confrontabili", "sum"),
+    n_target_raggiunto=("n_target_raggiunto", "sum"),
 )
+# Rapporti delle somme, non media delle percentuali per tipo: è la stessa base
+# usata nei KPI e nella tabella, altrimenti lo stesso ministero mostra due numeri.
+fin["pct_numeric"] = (
+    100 * fin["n_target_numerico"] / fin["n_indicatori"].replace(0, pd.NA)
+).fillna(0)
+fin["pct_raggiunto"] = 100 * fin["n_target_raggiunto"] / fin["n_confrontabili"].replace(0, pd.NA)
 
 # Quota di indicatori "di realizzazione finanziaria": misurano la spesa, non il risultato.
 fin_tipo = (
@@ -127,10 +134,13 @@ if not scatter.empty:
                 "colorbar": {"title": "% target<br>numerico"},
                 "line": {"width": 1, "color": "white"},
             },
+            customdata=scatter[["pct_numeric", "pct_raggiunto"]].to_numpy(),
             hovertemplate=(
                 "<b>%{text}</b><br>"
-                "Spesa: € %{x:,.1f} mld<br>"
+                "Spesa LB: € %{x:,.1f} mld<br>"
                 "Indicatori finanziari: %{y:.0f}%<br>"
+                "Target numerici: %{customdata[0]:.0f}%<br>"
+                "Target centrati: %{customdata[1]:.0f}%<br>"
                 "<extra></extra>"
             ),
         )
@@ -144,9 +154,11 @@ if not scatter.empty:
     st.plotly_chart(fig, width="stretch")
 
     st.caption(
-        "Ogni punto è un ministero. A destra ci sono i ministeri che spendono di più; "
-        "in alto quelli i cui indicatori misurano l'avanzamento della spesa invece del risultato. "
-        "Il colore è la quota di indicatori con target numerico: più chiaro, meno misurabile."
+        "Ogni punto è un ministero. A destra ci sono i ministeri che spendono di più (Legge di "
+        "Bilancio); in alto quelli i cui indicatori misurano l'avanzamento della spesa invece del "
+        "risultato (Rendiconto). Sono due fasi diverse: la spesa è quella approvata, la misurazione "
+        "è quella consuntivata. Il colore è la quota di indicatori con target numerico: più chiaro, "
+        "meno misurabile."
     )
 
 # --- I target si auto-avverano? ---

@@ -80,7 +80,7 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 
 ## Dashboard
 
-Dashboard Streamlit con 9 pagine:
+Dashboard Streamlit con 10 pagine:
 
 | Pagina | Contenuto |
 |---|---|
