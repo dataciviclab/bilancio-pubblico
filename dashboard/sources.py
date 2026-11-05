@@ -214,6 +214,33 @@ def load_rnd_serie_missione():
     return _mart("bdap_rnd_spese_serie", "mart_rnd_spese_missione", published_year("bdap_rnd_spese_serie"))
 
 
+# --- Note Integrative (programmazione per obiettivi) ---
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_ni_azioni():
+    """Azioni di bilancio con stanziamento triennale e gestione (DLB/LB/RND)."""
+    return _mart("bdap_ni_azioni", "mart_azioni_anno")
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_ni_obiettivi():
+    """Obiettivi strategici e strutturali delle amministrazioni (DLB/LB)."""
+    return _mart("bdap_ni_obiettivi", "mart_obiettivi_anno")
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_ni_indicatori():
+    """Indicatori con target numerico e valore a rendiconto (DLB/LB/RND)."""
+    return _mart("bdap_ni_indicatori", "mart_indicatori_anno")
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def load_ni_priorita():
+    """Priorità politiche dichiarate, con conteggio dei riferimenti al PNRR."""
+    return _mart("bdap_ni_priorita", "mart_priorita_anno")
+
+
 # --- Consuntivo (spese per capitolo, entrate per articolo) ---
 
 

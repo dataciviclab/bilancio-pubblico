@@ -4,7 +4,6 @@ I dati del bilancio dello Stato italiano, resi interrogabili.
 """
 
 import streamlit as st
-
 from lab_connectors.branding import apply_branding
 
 st.set_page_config(
@@ -26,6 +25,7 @@ pages = {
         st.Page("pages/04_Spese.py", title="Spese per Missione", icon="💰"),
         st.Page("pages/05_Pagamenti.py", title="Pagamenti e Debito", icon="🏛️"),
         st.Page("pages/07_Promesse_vs_Realta.py", title="Promesse vs Realtà", icon="⚖️"),
+        st.Page("pages/10_Programmazione.py", title="Cosa promette lo Stato", icon="🎯"),
         st.Page("pages/08_Catena.py", title="Catena del Bilancio", icon="🔗"),
         st.Page("pages/09_Consuntivo.py", title="Consuntivo", icon="🧾"),
     ],

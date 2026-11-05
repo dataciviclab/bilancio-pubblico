@@ -45,15 +45,19 @@ def test_sources_data_loads() -> None:
     import sys
     sys.path.insert(0, str(DASHBOARD_DIR))
     from sources import (
-        load_saldi_anno,
         load_composizione_spesa,
-        load_entrate_anno,
-        load_spese_missione,
-        load_pagamenti_anno,
-        load_costo_debito,
-        load_lb_serie_anno,
-        load_consuntivo_spese_anno,
         load_consuntivo_entrate_titolo,
+        load_consuntivo_spese_anno,
+        load_costo_debito,
+        load_entrate_anno,
+        load_lb_serie_anno,
+        load_ni_azioni,
+        load_ni_indicatori,
+        load_ni_obiettivi,
+        load_ni_priorita,
+        load_pagamenti_anno,
+        load_saldi_anno,
+        load_spese_missione,
     )
     assert not load_saldi_anno().empty, "saldi_anno vuoto"
     assert not load_composizione_spesa().empty, "composizione_spesa vuoto"
@@ -64,3 +68,7 @@ def test_sources_data_loads() -> None:
     assert not load_lb_serie_anno().empty, "lb_serie_anno vuoto"
     assert not load_consuntivo_spese_anno().empty, "consuntivo_spese_anno vuoto"
     assert not load_consuntivo_entrate_titolo().empty, "consuntivo_entrate_titolo vuoto"
+    assert not load_ni_azioni().empty, "ni_azioni vuoto"
+    assert not load_ni_indicatori().empty, "ni_indicatori vuoto"
+    assert not load_ni_obiettivi().empty, "ni_obiettivi vuoto"
+    assert not load_ni_priorita().empty, "ni_priorita vuoto"
