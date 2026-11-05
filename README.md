@@ -80,7 +80,7 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 
 ## Dashboard
 
-Dashboard Streamlit con 7 pagine:
+Dashboard Streamlit con 9 pagine:
 
 | Pagina | Contenuto |
 |---|---|
@@ -91,6 +91,7 @@ Dashboard Streamlit con 7 pagine:
 | Pagamenti e Debito | Trend pagati, interessi e spesa missione Debito (034), top10 missioni |
 | Query SQL | Query libere su tutti i mart |
 | Promesse vs Realtà | Gap LB → consuntivo per missione: dove la promessa è stata disattesa (2011-2025) |
+| Cosa promette lo Stato | Note Integrative: indicatori, target numerici e centrati, chi spende di più e misura peggio, PNRR nelle priorità, obiettivi strategici vs strutturali |
 | Catena del Bilancio | Waterfall degli scostamenti DLB → LB → definitiva → impegnato → pagato |
 | Consuntivo | Pagato, residui, economie di spesa e accertato/versato delle entrate (2011-2025) |
 

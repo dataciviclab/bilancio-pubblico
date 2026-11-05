@@ -14,7 +14,8 @@ st.title("⚖️ Promesse vs Realtà")
 st.caption(
     "Quanto la Legge di Bilancio è stata rispettata: scostamento tra previsione iniziale "
     "e spese effettivamente impegnate e pagate. Per il percorso tra gli stadi vedi "
-    "**Catena del Bilancio**."
+    "**Catena del Bilancio**; per gli obiettivi e i target dichiarati vedi "
+    "**Cosa promette lo Stato**."
 )
 
 df_lb = load_lb_serie_missione()
