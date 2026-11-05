@@ -35,3 +35,20 @@ jobs:
       install: "pip install -e .\"[dev]\""
       configs: ${{ needs.detect.outputs.dirs }}
       years: "from-config"
+
+  # Gli smoke test della dashboard non passano da `validate-config`, che valida
+  # i dataset. Questo job esegue ogni pagina Streamlit sui mart pubblicati:
+  # `out/` non esiste in CI, quindi legge da GCS — è il percorso reale della
+  # dashboard. Serve a intercettare pagine rotte e mart che cambiano schema.
+  dashboard-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: dataciviclab/.github/actions/python-setup@main
+        with:
+          install-extras: "dev,dashboard"
+
+      - name: Smoke test dashboard (dati pubblicati su GCS)
+        working-directory: dashboard
+        run: python -m pytest tests/ -q

@@ -33,3 +33,22 @@ jobs:
       pull-requests: write
       id-token: write
     secrets: inherit
+
+  # Verifica che la dashboard regga i dati appena pubblicati: è qui che un mart
+  # che cambia schema si manifesta, perché prima del merge i parquet su GCS
+  # sono ancora quelli vecchi.
+  dashboard-smoke:
+    needs: pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - uses: dataciviclab/.github/actions/python-setup@main
+        with:
+          install-extras: "dev,dashboard"
+
+      - name: Smoke test dashboard sui dati pubblicati
+        working-directory: dashboard
+        run: python -m pytest tests/ -q
