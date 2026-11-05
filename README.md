@@ -18,6 +18,8 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 4. **Quanto costa il debito a bilancio?** → interessi pagati e spesa della missione Debito (consuntivo pagamenti 034)
 5. **Come varia la spesa per missione?** → spese per DPCM Art.3
 6. **Il governo mantiene le promesse?** → confronto Legge di Bilancio vs Rendiconto per 34 missioni
+7. **Cosa promette lo Stato, obiettivo per obiettivo?** → Note Integrative: priorità politiche, obiettivi, azioni e indicatori con target triennale (2018-2025)
+8. **I target dichiarati vengono centrati?** → confronto target LB vs valore a Rendiconto, indicatore per indicatore
 
 ## Dataset
 
@@ -34,12 +36,29 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 | bdap_dlb_spese_serie | 2003-2026 | 3 | Disegno di Legge di Bilancio: spese per amministrazione/missione/programma/macroaggregato, triennio A1/A2/A3 |
 | bdap_rnd_spese_capitolo | 2011-2025 | 4 | Consuntivo di competenza per capitolo: previsione definitiva, pagato, rimasto da pagare, economie |
 | bdap_rnd_entrate_articolo | 2011-2025 | 4 | Consuntivo entrate per articolo: previsione definitiva, accertato, versato, residui |
+| bdap_ni_azioni | 2018-2025 | 1 | Note Integrative — azioni con stanziamento triennale CP/CS (DLB, LB) e gestione (RND) |
+| bdap_ni_obiettivi | 2018-2025 | 1 | Note Integrative — obiettivi strategici e strutturali (DLB, LB) |
+| bdap_ni_indicatori | 2018-2025 | 1 | Note Integrative — indicatori con target triennale e valore a rendiconto (DLB, LB, RND) |
+| bdap_ni_priorita | 2018-2025 | 1 | Note Integrative — priorità politiche dichiarate (LB, RND) |
+| bdap_ni_amministrazioni | 2018-2025 | 1 | Anagrafica STP → denominazione delle amministrazioni centrali (support, RND) |
+
+> **Note Integrative — cosa sono.** Sono il documento allegato al bilancio (art. 21 c.11 lett. a L. 196/2009; art. 35 c.2 per il rendiconto) che spiega *perché* si spende: priorità politiche → obiettivi → indicatori. La fonte è la stessa di `bdap_lb_*`, ma l'oggetto cambia: non "quanto si spende" bensì "cosa si dichiara di voler ottenere e come lo si misura". Il totale degli stanziamenti per azione coincide con `bdap_lb_spese_missione` (2024: 1.215,1 mld CP), quindi le due viste sono joinabili su anno, amministrazione, missione e programma.
+
+> **Note Integrative — le tre fasi.** `DLB` (disegno di legge, ottobre), `LB` (legge approvata, dicembre) e `RND` (rendiconto, anno successivo) sono **tre documenti distinti, non tre versioni dello stesso file**. Non sono incluse ovunque, perché non ovunque aggiungono informazione: `azioni` e `indicatori` le tengono tutte e tre (tra DLB e LB **l'importo di competenza del primo anno cambia nel 16,7-22,0% delle azioni presenti in entrambe le fasi**, e **l'11,9-29,7% degli indicatori non è presente in entrambe**); il valore numerico del target invece cambia solo nell'8-12%, perché spesso è riscritto senza modificarlo. Tutte le misure sono fatte sulle chiavi composite, non sui codici nudi; `obiettivi` si ferma a DLB+LB (il rendiconto è una copia: 0-4 testi diversi su ~300); `priorità` parte da LB perché **il DLB è strutturalmente incompleto** (6-12 ministeri su 15, mai completo) e un confronto DLB/LB sarebbe un artefatto, non un finding.
+
+> **Note Integrative — chiavi.** I codici della fonte **non sono univoci**: ripartono dentro il livello padre. Le chiavi corrette sono `stp + missione + programma + azione` (azioni), `stp + missione + programma + cdr + obiettivo` (obiettivi), `stp + obiettivo + indicatore` (indicatori), `stp + codice_priorita` (priorità). Con `stp + azione_codice` il 2024 sembra avere 129 azioni invece di 810.
+
+> **Note Integrative — copertura.** Non è uniforme per anno e fase: ogni mart espone `n_ministri_coperti` per rendere visibile il buco. Il caso peggiore è il DLB delle priorità (2023: 6 ministeri su 15); il rendiconto è la fase più completa e per questo è usata per l'anagrafica.
+
+> **Note Integrative — valori degli indicatori.** Nella fonte sono testo libero (`">= 91%"`, `"3.020.000,00"`, `"SI"`, `"25% <= x <= 50%"`). `target_anno1_valore` e `valore_rendiconto_valore` sono popolati solo quando il valore è un singolo numero con eventuale operatore e unità; intervalli, booleani e prosa restano nel testo originale. Il confronto target/risultato usa l'operatore dichiarato ed è calcolato solo a parità di unità.
 
 > **Nota 2017**: la vista BDAP aggregata per missione/programma/macroaggregato (`bdap_spese_stato`) omette una quota del programma "Garanzia dei diritti dei cittadini" finanziata dal Ministero dell'Economia (~10,4 mld CS). La vista per amministrazione (`bdap_rnd_spese_serie`) la include: per il 2017 il totale CS è 914,8 mld contro 904,2 della vista aggregata. Il delta è documentato, non corretto a valle.
 
 > **Nota 2024 (entrate)**: la vista aggregata per titolo/natura/tipologia/provento (`bdap_entrate_stato`) perde ~3,8 mld di previsione definitiva CP nel 2024 rispetto al dettaglio per articolo (`bdap_rnd_entrate_articolo`). Sugli altri anni i totali coincidono.
 
-### Mart analitici (33 totali)
+> **Nota 2022 (Note Integrative, azioni)**: il rendiconto 2022 riporta per il Ministero del Lavoro uno stanziamento iniziale CP superiore di 9,1 mld rispetto alla Legge di Bilancio (162,5 vs 153,4 mld). È un'incoerenza della fonte, non della pipeline: sulle altre annualità le due fasi coincidono al centesimo. Non corretta a valle.
+
+### Mart analitici (38 totali)
 
 **Saldi** (3): mart_saldi_anno, mart_composizione_spesa, mart_avanzo_primario
 
@@ -56,6 +75,8 @@ li trasforma in mart analitici e li rende interrogabili via dashboard Streamlit.
 **Consuntivo capitolo** (4): mart_capitolo, mart_anno, mart_missione, mart_amministrazione
 
 **Consuntivo entrate** (4): mart_articolo, mart_anno, mart_titolo, mart_amministrazione
+
+**Note Integrative** (5): mart_priorita_anno, mart_obiettivi_anno, mart_azioni_anno, mart_indicatori_anno, mart_amministrazioni
 
 ## Dashboard
 
@@ -93,7 +114,7 @@ cd dashboard && streamlit run app.py
 
 ```
 .github/workflows/          # CI/CD (check + pipeline reusable)
-datasets/                   # Pipeline toolkit (9 dataset)
+datasets/                   # Pipeline toolkit (15 dataset)
   bdap-saldi-stato/
   bdap-entrate-stato/
   bdap-spese-stato/
@@ -105,6 +126,12 @@ datasets/                   # Pipeline toolkit (9 dataset)
   bdap-dlb-spese-serie/
   bdap-rnd-spese-capitolo/
   bdap-rnd-entrate-articolo/
+  bdap-ni-azioni/
+  bdap-ni-obiettivi/
+  bdap-ni-indicatori/
+  bdap-ni-priorita/
+support/                    # Anagrafiche condivise
+  anagrafica-amministrazioni/
 dashboard/                  # Streamlit (7 pagine)
 notebooks/                  # Analisi legacy (Discussion)
 Makefile                    # PREFIX=bdap, YEARS=all

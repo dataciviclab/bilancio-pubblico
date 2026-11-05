@@ -1,0 +1,111 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_ni_azioni"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, note-integrative, programmazione, azioni, stanziamenti]
+  category: finanza-pubblica
+  description: "Note Integrative — Azioni di bilancio con stanziamento triennale di competenza e cassa (disegno di legge, legge) e consuntivo di gestione (rendiconto)."
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage:
+    start_year: 2018
+    end_year: 2025
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "raw_bdap_ni_azioni_dlb"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_azioni_{year}_dlb.csv"
+        url_suffix_by_year:
+          2018: "3f73637a-23b3-4290-9a2c-59e6e7a340ad.csv"
+          2019: "d258b56b-c364-4771-9c2d-f46c0d72b873.csv"
+          2020: "b32efcd5-cdd5-4581-8691-0da7740750d7.csv"
+          2021: "24f53756-57ed-4b80-8c90-e0dbabb375fa.csv"
+          2022: "d17d3885-aecc-40c6-8c86-54b0126484f8.csv"
+          2023: "f0233511-a81d-4831-b77f-1c5bcf0b5b3b.csv"
+          2024: "745e3e66-cb96-4c95-a1cf-1cc19d0ca366.csv"
+          2025: "4abb57e2-6041-4575-8481-02ecfe44d3b9.csv"
+      inject_column:
+        fase_codice: "DLB"
+      primary: true
+    - name: "raw_bdap_ni_azioni_lb"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_azioni_{year}_lb.csv"
+        url_suffix_by_year:
+          2018: "2e6afa82-7874-4186-a2b8-a0c4d08196aa.csv"
+          2019: "f4eab3f5-da6d-4260-9858-3edb75d5e423.csv"
+          2020: "8aefe232-ecf3-4612-b7cd-8da1d285726a.csv"
+          2021: "2bb6c5a8-db54-45fe-a64f-9ebcda2c59fd.csv"
+          2022: "fb6c892f-66a8-431c-8b0d-a1cb164b8a20.csv"
+          2023: "9f140870-03d9-4552-b893-ecd051c4251b.csv"
+          2024: "99158045-dbc4-417c-b4c2-ed160295b418.csv"
+          2025: "25275a70-bc6f-401a-91b4-6b794dc8c1e2.csv"
+      inject_column:
+        fase_codice: "LB"
+    - name: "raw_bdap_ni_azioni_rnd"
+      type: "http_file"
+      client:
+        timeout: 120
+        retries: 2
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "bdap_ni_azioni_{year}_rnd.csv"
+        url_suffix_by_year:
+          2018: "a02c7fde-8e7f-4a79-93ae-e45719b660e2.csv"
+          2019: "3bb6fd59-3c6f-4d65-983f-2c6828329f63.csv"
+          2020: "337bc69f-2c65-4e1c-b700-a7b81c792cc9.csv"
+          2021: "dd727c63-79d1-4f41-a706-56a3d5eda6c4.csv"
+          2022: "5e3d9d97-c0d7-4d57-b4c4-bb3af3e4138f.csv"
+          2023: "ec435e3c-8587-4f8c-a206-6415ca2c2f83.csv"
+          2024: "3730c29b-4439-4cd8-a234-cf87c6d2c055.csv"
+          2025: "debe5d4c-0888-4d9f-8be1-f058e394a4de.csv"
+      inject_column:
+        fase_codice: "RND"
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: [anno, fase, stp, amministrazione, missione_codice, missione, programma_codice, programma, azione_codice, azione]
+  read:
+    source: auto
+    mode: "all"
+    header: true
+    delim: ";"
+    encoding: "cp1252"
+    all_varchar: true
+    trim_whitespace: true
+    null_padding: true
+    ignore_errors: true
+
+  validate:
+    not_null: [anno, fase, stp, azione_codice]
+    min_rows: 300
+
+mart:
+  tables:
+    - name: "mart_azioni_anno"
+      sql: "sql/mart_azioni_anno.sql"
+      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  required_tables:
+    - "mart_azioni_anno"
+  validate:
+    table_rules:
+      mart_azioni_anno:
+        min_rows: 1
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal
