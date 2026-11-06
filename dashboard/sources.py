@@ -5,17 +5,13 @@ Uses lab_connectors to read from GCS in production, local files in dev.
 
 from __future__ import annotations
 
-import re
-import urllib.request
 from datetime import date
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
-
 from lab_connectors.duckdb.queries import load_mart_flat, load_mart_table
-from lab_connectors.gcs.paths import https_url
-from lab_connectors.registry import load_registry
+from lab_connectors.registry import Registry, latest_published_year, load_registry
 
 PREFIX = "bilancio-pubblico/"
 _REGISTRY_PATH = Path(__file__).resolve().parents[1] / "registry" / "registry.json"
@@ -33,29 +29,13 @@ def _get_registry():
 def published_year(slug: str) -> int:
     """Anno della partizione pubblicata per ``slug``.
 
-    Ordine di risoluzione: registry → HEAD su GCS → anno corrente.
-    La pipeline pubblica sotto l'anno di esecuzione: hardcodarlo fa 404 al
-    primo bump.
+    Ordine di risoluzione (in ``lab_connectors.registry``): registry → HEAD su
+    GCS. Se non esiste ancora nessuna partizione si usa l'anno corrente (la
+    pipeline pubblica sotto l'anno di esecuzione): hardcodarlo fa 404 al primo
+    bump.
     """
-    registry = _get_registry()
-    if registry is not None:
-        for dataset in registry.datasets:
-            if dataset.slug != slug:
-                continue
-            match = re.search(r"/(\d{4})/", dataset.location.path)
-            if match:
-                return int(match.group(1))
-
-    current = date.today().year
-    for year in range(current + 1, current - 3, -1):
-        url = https_url("clean", "clean_parquet", prefix=PREFIX, slug=slug, year=year)
-        try:
-            request = urllib.request.Request(url, method="HEAD")
-            with urllib.request.urlopen(request, timeout=3):
-                return year
-        except OSError:
-            continue
-    return current
+    year = latest_published_year(_get_registry() or Registry(), slug, prefix=PREFIX)
+    return year or date.today().year
 
 
 def _mart(slug: str, table: str, year: int | None = None) -> pd.DataFrame:
@@ -64,21 +44,11 @@ def _mart(slug: str, table: str, year: int | None = None) -> pd.DataFrame:
     Prova prima il filesystem locale (``out/data`` rilevato da lab_connectors),
     poi ricade su GCS: in sviluppo l'output locale può essere parziale, mentre
     in cloud il locale non esiste e si legge direttamente dal bucket.
+    ``fallback_remote`` gestisce il primo caso senza duplicare la query.
     """
-    try:
-        if year is None:
-            return load_mart_flat(slug, table, prefix=PREFIX)
-        return load_mart_table(slug, table, year, prefix=PREFIX)
-    except Exception:
-        from lab_connectors.duckdb.core import safe_connect
-        from lab_connectors.gcs.paths import https_url
-
-        if year is None:
-            url = https_url("mart", "mart_parquet_flat", prefix=PREFIX, slug=slug, table=table)
-        else:
-            url = https_url("mart", "mart_parquet", prefix=PREFIX, slug=slug, year=str(year), table=table)
-        with safe_connect() as con:
-            return con.sql(f"SELECT * FROM read_parquet('{url}')").df()
+    if year is None:
+        return load_mart_flat(slug, table, prefix=PREFIX, fallback_remote=True)
+    return load_mart_table(slug, table, year, prefix=PREFIX, fallback_remote=True)
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
