@@ -7,10 +7,10 @@ dataset:
   tags: [finanza-pubblica, bdap, note-integrative, programmazione, obiettivi]
   category: finanza-pubblica
   description: "Note Integrative — Obiettivi strategici e strutturali delle amministrazioni centrali, collegati a missione, programma, azione e priorità politica, per anno e fase."
-  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
   time_coverage:
     start_year: 2018
-    end_year: 2025
+    end_year: 2026
 
 raw:
   output_policy: overwrite
@@ -32,6 +32,7 @@ raw:
           2023: "7b8312f1-e772-4a36-9d1c-84e61e34517c.csv"
           2024: "bb2e77aa-f025-41be-83fb-1e27d55365cd.csv"
           2025: "49dafe12-3d50-4f68-989c-15f33b8ca23b.csv"
+          2026: "af033904-9ab1-4c05-849b-564f8bd68b20.csv"
       inject_column:
         fase_codice: "DLB"
       primary: true
@@ -77,7 +78,7 @@ mart:
   tables:
     - name: "mart_obiettivi_anno"
       sql: "sql/mart_obiettivi_anno.sql"
-      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
   required_tables:
     - "mart_obiettivi_anno"
   validate:
