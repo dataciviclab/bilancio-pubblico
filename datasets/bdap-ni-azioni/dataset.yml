@@ -7,10 +7,10 @@ dataset:
   tags: [finanza-pubblica, bdap, note-integrative, programmazione, azioni, stanziamenti]
   category: finanza-pubblica
   description: "Note Integrative — Azioni di bilancio con stanziamento triennale di competenza e cassa (disegno di legge, legge) e consuntivo di gestione (rendiconto)."
-  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
   time_coverage:
     start_year: 2018
-    end_year: 2025
+    end_year: 2026
 
 raw:
   output_policy: overwrite
@@ -32,6 +32,7 @@ raw:
           2023: "f0233511-a81d-4831-b77f-1c5bcf0b5b3b.csv"
           2024: "745e3e66-cb96-4c95-a1cf-1cc19d0ca366.csv"
           2025: "4abb57e2-6041-4575-8481-02ecfe44d3b9.csv"
+          2026: "1a48d035-ac63-4a6b-bd0b-f586b3be0c4e.csv"
       inject_column:
         fase_codice: "DLB"
       primary: true
@@ -88,6 +89,38 @@ clean:
     null_padding: true
     ignore_errors: true
 
+    # 2026 pubblica solo la fase DLB: senza schema dichiarato la UNION del
+    # clean riferisce colonne RND inesistenti. Con align_by_header le colonne
+    # mancanti diventano NULL; inject_column continua a marcare la fase.
+    normalize_rows_to_columns: true
+    align_by_header: true
+    columns:
+      "Anno": "VARCHAR"
+      "Azione": "VARCHAR"
+      "Codice Azione": "VARCHAR"
+      "Codice Missione": "VARCHAR"
+      "Codice Programma": "VARCHAR"
+      "Criteri": "VARCHAR"
+      "Data Osservazione": "VARCHAR"
+      "Descrizione Amministrazione": "VARCHAR"
+      "Missione": "VARCHAR"
+      "Principali fatti di gestione": "VARCHAR"
+      "Programma": "VARCHAR"
+      "STP": "VARCHAR"
+      "Stanziamento CP 1 anno": "VARCHAR"
+      "Stanziamento CP 2 anno": "VARCHAR"
+      "Stanziamento CP 3 anno": "VARCHAR"
+      "Stanziamento CS 1 anno": "VARCHAR"
+      "Stanziamento CS 2 anno": "VARCHAR"
+      "Stanziamento CS 3 anno": "VARCHAR"
+      "Stanziamento definitivo CP": "VARCHAR"
+      "Stanziamento definitivo CS": "VARCHAR"
+      "Stanziamento iniziale CP": "VARCHAR"
+      "Stanziamento iniziale CS": "VARCHAR"
+      "Totale Pagato CP": "VARCHAR"
+      "Totale Pagato CS": "VARCHAR"
+      "Totale impegnato CP": "VARCHAR"
+
   validate:
     not_null: [anno, fase, stp, azione_codice]
     min_rows: 300
@@ -96,7 +129,7 @@ mart:
   tables:
     - name: "mart_azioni_anno"
       sql: "sql/mart_azioni_anno.sql"
-      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
   required_tables:
     - "mart_azioni_anno"
   validate:
