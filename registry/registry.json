@@ -519,7 +519,7 @@
       "source_id": "openbdap",
       "period": {
         "start": 2018,
-        "end": 2025
+        "end": 2026
       },
       "tags": [
         "finanza-pubblica",
@@ -709,7 +709,7 @@
       "source_id": "openbdap",
       "period": {
         "start": 2018,
-        "end": 2025
+        "end": 2026
       },
       "tags": [
         "finanza-pubblica",
@@ -2631,27 +2631,26 @@
       "source_id": "openbdap",
       "status": "ok",
       "label": "bdap_ni_azioni",
-      "detail": "anni 2018-2025 — mart: si",
+      "detail": "anni 2018-2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261105T100447Z_0762197d",
-        "year": 2025,
+        "run_id": "20261108T113239Z_f0839f6f",
+        "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
           "raw": 100,
           "clean": 100
         },
         "output_rows": {
-          "raw": 819,
-          "clean": 2457
+          "clean": 823
         },
         "output_bytes": {
-          "raw": 3569837,
-          "clean": 525104
+          "raw": 1482108,
+          "clean": 234897
         },
-        "started_at": "2026-11-05T10:04:47.347902+00:00",
-        "finished_at": "2026-11-05T10:04:55.816403+00:00",
-        "duration_seconds": 8.469
+        "started_at": "2026-11-08T11:32:39.603345+00:00",
+        "finished_at": "2026-11-08T11:32:45.269118+00:00",
+        "duration_seconds": 5.666
       }
     },
     {
@@ -2659,27 +2658,26 @@
       "source_id": "openbdap",
       "status": "ok",
       "label": "bdap_ni_indicatori",
-      "detail": "anni 2018-2025 — mart: si",
+      "detail": "anni 2018-2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261105T100604Z_c304a9b8",
-        "year": 2025,
+        "run_id": "20261108T113359Z_600d9bd0",
+        "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
           "raw": 100,
           "clean": 100
         },
         "output_rows": {
-          "raw": 1035,
-          "clean": 3110
+          "clean": 1035
         },
         "output_bytes": {
-          "raw": 4032190,
-          "clean": 337185
+          "raw": 1664402,
+          "clean": 255504
         },
-        "started_at": "2026-11-05T10:06:04.711688+00:00",
-        "finished_at": "2026-11-05T10:06:14.459527+00:00",
-        "duration_seconds": 9.748
+        "started_at": "2026-11-08T11:33:59.657698+00:00",
+        "finished_at": "2026-11-08T11:34:05.700305+00:00",
+        "duration_seconds": 6.043
       }
     },
     {
