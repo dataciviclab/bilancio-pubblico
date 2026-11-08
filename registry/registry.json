@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repo": "bilancio-pubblico",
   "source_repo": "dataciviclab/bilancio-pubblico",
-  "updated_at": "2026-11-05",
+  "updated_at": "2026-11-08",
   "datasets": [
     {
       "slug": "bdap_dlb_spese_serie",
@@ -960,7 +960,7 @@
       "source_id": "openbdap",
       "period": {
         "start": 2018,
-        "end": 2025
+        "end": 2026
       },
       "tags": [
         "finanza-pubblica",
@@ -2687,27 +2687,27 @@
       "source_id": "openbdap",
       "status": "ok",
       "label": "bdap_ni_obiettivi",
-      "detail": "anni 2018-2025 — mart: si",
+      "detail": "anni 2018-2026 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261105T100653Z_42f2a3bb",
-        "year": 2025,
+        "run_id": "20261108T111102Z_b46f21d6",
+        "year": 2026,
         "status": "SUCCESS",
         "quality_score": {
           "raw": 100,
           "clean": 95
         },
         "output_rows": {
-          "raw": 591,
-          "clean": 1182
+          "raw": 593,
+          "clean": 593
         },
         "output_bytes": {
-          "raw": 1297627,
-          "clean": 131486
+          "raw": 817756,
+          "clean": 121964
         },
-        "started_at": "2026-11-05T10:06:53.725378+00:00",
-        "finished_at": "2026-11-05T10:06:58.712001+00:00",
-        "duration_seconds": 4.987
+        "started_at": "2026-11-08T11:11:02.946441+00:00",
+        "finished_at": "2026-11-08T11:11:08.226536+00:00",
+        "duration_seconds": 5.28
       }
     },
     {
