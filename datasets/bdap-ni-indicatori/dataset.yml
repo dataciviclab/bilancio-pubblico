@@ -7,10 +7,10 @@ dataset:
   tags: [finanza-pubblica, bdap, note-integrative, programmazione, indicatori, target]
   category: finanza-pubblica
   description: "Note Integrative — Indicatori di risultato con target triennale e valore a rendiconto: il confronto tra promesso e realizzato, obiettivo per obiettivo."
-  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
   time_coverage:
     start_year: 2018
-    end_year: 2025
+    end_year: 2026
 
 raw:
   output_policy: overwrite
@@ -32,6 +32,7 @@ raw:
           2023: "d6aaed89-5aaf-4305-8641-33269ffa396d.csv"
           2024: "a4263817-2225-4204-802d-83d83e512294.csv"
           2025: "a40317ac-f302-4889-898a-90e0ab889c99.csv"
+          2026: "1ffe9b1e-8adb-4caf-9232-aea88c1bbad5.csv"
       inject_column:
         fase_codice: "DLB"
       primary: true
@@ -88,6 +89,48 @@ clean:
     null_padding: true
     ignore_errors: true
 
+    # 2026 pubblica solo la fase DLB: senza schema dichiarato la UNION del
+    # clean riferisce colonne RND inesistenti. Con align_by_header le colonne
+    # mancanti diventano NULL; inject_column continua a marcare la fase.
+    normalize_rows_to_columns: true
+    align_by_header: true
+    columns:
+      "Anno": "VARCHAR"
+      "CdR": "VARCHAR"
+      "Codice CdR": "VARCHAR"
+      "Codice Indicatore": "VARCHAR"
+      "Codice Indicatore trasversale": "VARCHAR"
+      "Codice Missione": "VARCHAR"
+      "Codice Obiettivo": "VARCHAR"
+      "Codice Programma": "VARCHAR"
+      "Data Osservazione": "VARCHAR"
+      "Descrizione Amministrazione": "VARCHAR"
+      "Descrizione Indicatore": "VARCHAR"
+      "Descrizione e provenienza": "VARCHAR"
+      "Fonte Indicatore": "VARCHAR"
+      "Fonte del dato": "VARCHAR"
+      "Indicatore": "VARCHAR"
+      "Indicatore trasversale": "VARCHAR"
+      "Metodo di calcolo Ind.": "VARCHAR"
+      "Missione": "VARCHAR"
+      "Nota mancanza valori target": "VARCHAR"
+      "Nota scostamento": "VARCHAR"
+      "Obiettivo": "VARCHAR"
+      "Programma": "VARCHAR"
+      "STP": "VARCHAR"
+      "Tipo Indicatore": "VARCHAR"
+      "Tipo Misura": "VARCHAR"
+      "Tipo Misura Ind.": "VARCHAR"
+      "Tipo Valore": "VARCHAR"
+      "Unità di misura": "VARCHAR"
+      "Unità di misura Ind.": "VARCHAR"
+      "Valore a Rendiconto": "VARCHAR"
+      "Valore anno 1": "VARCHAR"
+      "Valore anno 1 a LB": "VARCHAR"
+      "Valore anno 2": "VARCHAR"
+      "Valore anno 3": "VARCHAR"
+      "Valore di riferimento": "VARCHAR"
+
   validate:
     not_null: [anno, fase, stp, indicatore_codice]
     min_rows: 300
@@ -96,7 +139,7 @@ mart:
   tables:
     - name: "mart_indicatori_anno"
       sql: "sql/mart_indicatori_anno.sql"
-      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+      years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
   required_tables:
     - "mart_indicatori_anno"
   validate:
