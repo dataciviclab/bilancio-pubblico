@@ -2,8 +2,451 @@
   "schema_version": 1,
   "repo": "bilancio-pubblico",
   "source_repo": "dataciviclab/bilancio-pubblico",
-  "updated_at": "2026-11-08",
+  "updated_at": "2026-11-09",
   "datasets": [
+    {
+      "slug": "bdap_dlb_spese_capitolo",
+      "name": "Bdap Dlb Spese Capitolo",
+      "description": "Disegno di Legge di Bilancio Presentato — Spese per capitolo, 2017-2027. Legislazione vigente, rimodulazioni, riferimenti DEF, DLB Sezione II, effetti del DLB e DLB integrato per missione/programma/azione su CP/CS triennali. E' la previsione per capitolo: il Rendiconto per capitolo e' il consuntivo. Identita' DLB integrato = PLB + rimodulazioni + terzo addendo + effetti verificata su 11/11 anni: il terzo addendo e' 'Rif. Def. Rip.' dal 2018 e 'Var. Manovra Sez. II' nel 2017 (sei colonne rinominate, stesso ruolo).",
+      "source": "",
+      "source_id": "openbdap",
+      "period": {
+        "start": 2017,
+        "end": 2027
+      },
+      "tags": [
+        "finanza-pubblica",
+        "bdap",
+        "spese",
+        "dlb",
+        "previsione",
+        "capitolo",
+        "bilancio-stato"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "stato_previsione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "amministrazione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "unita_voto_1",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "unita_voto_2",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "numero_capitolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "denominazione_capitolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_categoria",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "categoria",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_puntato_ce",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_missione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "missione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "codice_programma",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "programma",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "programma_code"
+        },
+        {
+          "name": "codice_cdr",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "cdr",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_azione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "azione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "plb_vigente_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "plb_vigente_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "plb_vigente_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "plb_vigente_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "plb_vigente_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "plb_vigente_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "plb_vigente_rs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimodulazioni_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimodulazioni_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimodulazioni_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimodulazioni_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimodulazioni_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rimodulazioni_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "var_manovra_sez2_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "var_manovra_sez2_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "var_manovra_sez2_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "var_manovra_sez2_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "var_manovra_sez2_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "var_manovra_sez2_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rif_def_rip_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rif_def_rip_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rif_def_rip_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rif_def_rip_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rif_def_rip_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "rif_def_rip_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_rs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_rs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terzo_addendo_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "quadratura_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/bilancio-pubblico/bdap_dlb_spese_capitolo/*/bdap_dlb_spese_capitolo_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "bdap_dlb_spese_capitolo__mart_capitolo",
+        "bdap_dlb_spese_capitolo__mart_anno",
+        "bdap_dlb_spese_capitolo__mart_missione",
+        "bdap_dlb_spese_capitolo__mart_amministrazione",
+        "bdap_dlb_spese_capitolo__mart_manovra_capitolo"
+      ]
+    },
     {
       "slug": "bdap_dlb_spese_serie",
       "name": "Bdap Dlb Spese Serie",
@@ -2124,6 +2567,56 @@
   ],
   "marts": [
     {
+      "slug": "bdap_dlb_spese_capitolo__mart_amministrazione",
+      "dataset": "bdap_dlb_spese_capitolo",
+      "table": "mart_amministrazione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_spese_capitolo/*/mart_amministrazione.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_dlb_spese_capitolo__mart_anno",
+      "dataset": "bdap_dlb_spese_capitolo",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_spese_capitolo/*/mart_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_dlb_spese_capitolo__mart_capitolo",
+      "dataset": "bdap_dlb_spese_capitolo",
+      "table": "mart_capitolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_spese_capitolo/*/mart_capitolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_dlb_spese_capitolo__mart_manovra_capitolo",
+      "dataset": "bdap_dlb_spese_capitolo",
+      "table": "mart_manovra_capitolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_spese_capitolo/*/mart_manovra_capitolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_dlb_spese_capitolo__mart_missione",
+      "dataset": "bdap_dlb_spese_capitolo",
+      "table": "mart_missione",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_spese_capitolo/*/mart_missione.parquet",
+        "multi_file": true
+      }
+    },
+    {
       "slug": "bdap_dlb_spese_serie__mart_dlb_spese_amministrazione",
       "dataset": "bdap_dlb_spese_serie",
       "table": "mart_dlb_spese_amministrazione",
@@ -2505,6 +2998,36 @@
     }
   ],
   "signals": [
+    {
+      "id": "bdap_dlb_spese_capitolo",
+      "source_id": "openbdap",
+      "status": "ok",
+      "label": "bdap_dlb_spese_capitolo",
+      "detail": "anni 2017-2027 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261109T172953Z_2a55c4ed",
+        "year": 2027,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 5181,
+          "mart": 10412
+        },
+        "output_bytes": {
+          "raw": 4460834,
+          "clean": 612585,
+          "mart": 550927
+        },
+        "started_at": "2026-11-09T17:29:53.009479+00:00",
+        "finished_at": "2026-11-09T17:30:01.381979+00:00",
+        "duration_seconds": 8.373
+      }
+    },
     {
       "id": "bdap_dlb_spese_serie",
       "source_id": "openbdap",
@@ -3023,6 +3546,30 @@
         "label": "Programma",
         "datasets": [
           {
+            "slug": "bdap_dlb_spese_capitolo",
+            "name": "Bdap Dlb Spese Capitolo",
+            "column": "codice_missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_dlb_spese_capitolo",
+            "name": "Bdap Dlb Spese Capitolo",
+            "column": "missione",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_dlb_spese_capitolo",
+            "name": "Bdap Dlb Spese Capitolo",
+            "column": "codice_programma",
+            "semantic_type": "programma_code"
+          },
+          {
+            "slug": "bdap_dlb_spese_capitolo",
+            "name": "Bdap Dlb Spese Capitolo",
+            "column": "programma",
+            "semantic_type": "programma_code"
+          },
+          {
             "slug": "bdap_dlb_spese_serie",
             "name": "Bdap Dlb Spese Serie",
             "column": "missione",
@@ -3192,13 +3739,19 @@
           }
         ],
         "types": {
-          "programma_code": 28
+          "programma_code": 32
         }
       },
       "Tempo": {
         "entity": "Tempo",
         "label": "Tempo / data",
         "datasets": [
+          {
+            "slug": "bdap_dlb_spese_capitolo",
+            "name": "Bdap Dlb Spese Capitolo",
+            "column": "anno",
+            "semantic_type": "year"
+          },
           {
             "slug": "bdap_dlb_spese_serie",
             "name": "Bdap Dlb Spese Serie",
@@ -3297,11 +3850,24 @@
           }
         ],
         "types": {
-          "year": 16
+          "year": 17
         }
       }
     },
     "bridges": [
+      {
+        "from": {
+          "entity": "Programma",
+          "dataset": "bdap_dlb_spese_capitolo",
+          "via": "programma_code"
+        },
+        "to": {
+          "entity": "Progetto",
+          "bridge": "opencoesione_progetti_esteso",
+          "on": "CUP",
+          "semantic_type": "cup_code"
+        }
+      },
       {
         "from": {
           "entity": "Programma",
