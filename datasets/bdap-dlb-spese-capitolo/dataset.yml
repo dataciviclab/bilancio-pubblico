@@ -1,0 +1,171 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "bdap_dlb_spese_capitolo"
+  source_id: "openbdap"
+  tags: [finanza-pubblica, bdap, spese, dlb, previsione, capitolo, bilancio-stato]
+  category: finanza-pubblica
+  description: "Disegno di Legge di Bilancio Presentato — Spese per capitolo, 2017-2027. Legislazione vigente, rimodulazioni, riferimenti DEF, DLB Sezione II, effetti del DLB e DLB integrato per missione/programma/azione su CP/CS triennali. E' la previsione per capitolo: il Rendiconto per capitolo e' il consuntivo. Identita' DLB integrato = PLB + rimodulazioni + terzo addendo + effetti verificata su 11/11 anni: il terzo addendo e' 'Rif. Def. Rip.' dal 2018 e 'Var. Manovra Sez. II' nel 2017 (sei colonne rinominate, stesso ruolo)."
+  years: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027]
+  time_coverage:
+    start_year: 2017
+    end_year: 2027
+
+raw:
+  output_policy: overwrite
+  sources:
+    - name: "dlb_spese_capitolo"
+      type: "http_file"
+      args:
+        url: "https://bdap-opendata.rgs.mef.gov.it/SpodCkanApi/api/3/datastore/dump/"
+        filename: "dlb_spese_capitolo_{year}.csv"
+        url_suffix_by_year:
+          2017: "cd82ae42-5f8e-4874-9d28-fb8d18e4d3bf.csv"
+          2018: "efe83589-5215-4128-960d-051af17154bd.csv"
+          2019: "32231f60-b635-484d-89c6-8873226de200.csv"
+          2020: "be6d0025-8812-40cd-bc82-0de40430052f.csv"
+          2021: "39fcab6f-15f3-470c-b3fa-7f0543e2a1bb.csv"
+          2022: "0d6637b0-09b9-464f-a34b-600f2505eeb3.csv"
+          2023: "18f20fea-4c74-41c8-8417-c2dcd5812e48.csv"
+          2024: "831b45a6-bdf3-49d0-802b-f415994c4d05.csv"
+          2025: "5faa6241-d4c5-4f03-94da-f2795ad72dff.csv"
+          2026: "5a469ef6-d3b8-4cc3-b3fe-bc22dd08d24a.csv"
+          2027: "b74a785c-1e89-4264-a403-b81eb02b457e.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  read:
+    source: "auto"
+    mode: "latest"
+    header: true
+    delim: ";"
+    encoding: "cp1252"
+    strict_mode: false
+    trim_whitespace: true
+    # 59 colonne dal 2018; il 2017 ha le stesse posizioni ma con sei colonne
+    # rinominate (Var. Manovra Sez. II al posto di Rif. Def. Rip.). Il 2011-2016
+    # usa un modello diverso (37 colonne, senza Azione e senza PLB) ed e' escluso.
+    normalize_rows_to_columns: true
+    align_by_header: true
+    columns:
+      "Esercizio Finanziario": "VARCHAR"
+      "Stato di Previsione": "VARCHAR"
+      "Amministrazione": "VARCHAR"
+      "Unità di voto 1° livello": "VARCHAR"
+      "Unità di voto 2° livello": "VARCHAR"
+      "Numero Capitolo di Spesa": "VARCHAR"
+      "Capitolo di Spesa": "VARCHAR"
+      "Codice Titolo": "VARCHAR"
+      "Titolo": "VARCHAR"
+      "Codice Categoria": "VARCHAR"
+      "Categoria": "VARCHAR"
+      "Codice Puntato CE": "VARCHAR"
+      "Codice Missione": "VARCHAR"
+      "Missione": "VARCHAR"
+      "Codice Programma": "VARCHAR"
+      "Programma": "VARCHAR"
+      "Codice Centro Responsabilità": "VARCHAR"
+      "Centro Responsabilità": "VARCHAR"
+      "Codice Azione": "VARCHAR"
+      "Azione": "VARCHAR"
+      "PLB legislazione vigente CP A1": "VARCHAR"
+      "PLB legislazione vigente CP A2": "VARCHAR"
+      "PLB legislazione vigente CP A3": "VARCHAR"
+      "PLB legislazione vigente CS A1": "VARCHAR"
+      "PLB legislazione vigente CS A2": "VARCHAR"
+      "PLB legislazione vigente CS A3": "VARCHAR"
+      "PLB legislazione vigente RS A1": "VARCHAR"
+      "Rimodulazioni CP A1": "VARCHAR"
+      "Rimodulazioni CP A2": "VARCHAR"
+      "Rimodulazioni CP A3": "VARCHAR"
+      "Rimodulazioni CS A1": "VARCHAR"
+      "Rimodulazioni CS A2": "VARCHAR"
+      "Rimodulazioni CS A3": "VARCHAR"
+      "Var. Manovra Sez. II CP A1": "VARCHAR"
+      "Var. Manovra Sez. II CP A2": "VARCHAR"
+      "Var. Manovra Sez. II CP A3": "VARCHAR"
+      "Var. Manovra Sez. II CS A1": "VARCHAR"
+      "Var. Manovra Sez. II CS A2": "VARCHAR"
+      "Var. Manovra Sez. II CS A3": "VARCHAR"
+      "Rif. Def. Rip. CP A1": "VARCHAR"
+      "Rif. Def. Rip. CP A2": "VARCHAR"
+      "Rif. Def. Rip. CP A3": "VARCHAR"
+      "Rif. Def. Rip. CS A1": "VARCHAR"
+      "Rif. Def. Rip. CS A2": "VARCHAR"
+      "Rif. Def. Rip. CS A3": "VARCHAR"
+      "DLB Sezione II CP A1": "VARCHAR"
+      "DLB Sezione II CP A2": "VARCHAR"
+      "DLB Sezione II CP A3": "VARCHAR"
+      "DLB Sezione II CS A1": "VARCHAR"
+      "DLB Sezione II CS A2": "VARCHAR"
+      "DLB Sezione II CS A3": "VARCHAR"
+      "DLB Sezione II RS A1": "VARCHAR"
+      "Effetti fin. DLB Sez. I CP A1": "VARCHAR"
+      "Effetti fin. DLB Sez. I CP A2": "VARCHAR"
+      "Effetti fin. DLB Sez. I CP A3": "VARCHAR"
+      "Effetti fin. DLB Sez. I CS A1": "VARCHAR"
+      "Effetti fin. DLB Sez. I CS A2": "VARCHAR"
+      "Effetti fin. DLB Sez. I CS A3": "VARCHAR"
+      "DLB Integrato CP A1": "VARCHAR"
+      "DLB Integrato CP A2": "VARCHAR"
+      "DLB Integrato CP A3": "VARCHAR"
+      "DLB Integrato CS A1": "VARCHAR"
+      "DLB Integrato CS A2": "VARCHAR"
+      "DLB Integrato CS A3": "VARCHAR"
+      "DLB Integrato RS A1": "VARCHAR"
+  required_columns:
+    - anno
+    - stato_previsione
+    - numero_capitolo
+    - codice_missione
+    - codice_programma
+    - dlb_integrato_cp_a1
+  validate:
+    min_rows: 3000
+    not_null: [anno, stato_previsione, numero_capitolo]
+    primary_key: [anno, stato_previsione, numero_capitolo]
+
+mart:
+  tables:
+    - name: "mart_capitolo"
+      sql: "sql/mart_capitolo.sql"
+    - name: "mart_anno"
+      sql: "sql/mart_anno.sql"
+    - name: "mart_missione"
+      sql: "sql/mart_missione.sql"
+    - name: "mart_amministrazione"
+      sql: "sql/mart_amministrazione.sql"
+    - name: "mart_manovra_capitolo"
+      sql: "sql/mart_manovra_capitolo.sql"
+  required_tables:
+    - "mart_capitolo"
+    - "mart_anno"
+    - "mart_missione"
+    - "mart_amministrazione"
+    - "mart_manovra_capitolo"
+  validate:
+    table_rules:
+      mart_capitolo:
+        min_rows: 500
+        primary_key: [anno, stato_previsione, numero_capitolo]
+      mart_anno:
+        min_rows: 1
+        primary_key: [anno]
+      mart_missione:
+        min_rows: 10
+        primary_key: [anno, missione]
+      mart_amministrazione:
+        min_rows: 5
+        primary_key: [anno, amministrazione]
+      mart_manovra_capitolo:
+        required_columns: [anno, numero_capitolo, delta_cp_a1_mln]
+        primary_key: [anno, stato_previsione, numero_capitolo]
+        min_rows: 500
+
+validation:
+  fail_on_error: true
+
+output:
+  artifacts: minimal
