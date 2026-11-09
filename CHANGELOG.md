@@ -10,19 +10,21 @@ Data: 2026-11-09
   di Bilancio presentato, spese per capitolo con missione, programma, azione e CdR.
   Misure: PLB (legislazione vigente), rimodulazioni, riferimenti DEF, DLB Sezione II,
   effetti del DLB Sez. I e **DLB integrato**, su CP/CS triennali.
-- **4 mart**: `mart_capitolo` (dettaglio), `mart_anno` (totali e quadratura),
-  `mart_missione`, `mart_amministrazione`
+- **5 mart**: `mart_capitolo` (dettaglio), `mart_anno` (totali e quadratura),
+  `mart_missione`, `mart_amministrazione`, `mart_manovra_capitolo` (delta PLB → DLB
+  integrato: cosa cambia la manovra, riga per riga)
 
 ### Note
-- Perimetro dal 2017: è il primo anno dello schema a 59 colonne (con Azione e PLB).
-  Il 2011-2016 usa 37 colonne, senza Azione e senza PLB, ed è escluso.
+- Perimetro dal 2017. Lo schema è stabile dal **2018**; il 2017 ha 59 colonne ma
+  sei rinominate ("Var. Manovra Sez. II" al posto di "Rif. Def. Rip."). Il 2011-2016
+  usa 37 colonne, senza Azione e senza PLB, ed è escluso.
 - Copre il buco tra il DLB aggregato (`bdap_dlb_spese_serie`, che si ferma al 2026
   e dipende da un package privato) e il Rendiconto per capitolo (`bdap_rnd_spese_capitolo`,
   che è il consuntivo). E' la **previsione** per capitolo.
 - 2027: 5.181 capitoli, DLB integrato 1.222,3 mld CP anno 1.
-- Identità `DLB integrato = PLB + rimodulazioni + rif. DEF + effetti` verificata
-  dal 2018; nel 2017 la fonte non la rispetta (fino a 4,3 mld su Fondi da ripartire),
-  documentato nella description del dataset.
+- Identità `DLB integrato = PLB + rimodulazioni + terzo addendo + effetti`
+  verificata su **11/11 anni**: il terzo addendo è `Rif. Def. Rip.` dal 2018 e
+  `Var. Manovra Sez. II` nel 2017, mappato come `var_manovra_sez2_*`.
 
 ## feat/note-integrative - Programmazione per obiettivi
 Data: 2026-11-04

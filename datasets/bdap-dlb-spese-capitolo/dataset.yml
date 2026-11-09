@@ -6,7 +6,7 @@ dataset:
   source_id: "openbdap"
   tags: [finanza-pubblica, bdap, spese, dlb, previsione, capitolo, bilancio-stato]
   category: finanza-pubblica
-  description: "Disegno di Legge di Bilancio Presentato — Spese per capitolo, 2017-2027. Legislazione vigente, rimodulazioni, riferimenti DEF, DLB Sezione II, effetti del DLB e DLB integrato per missione/programma/azione su CP/CS triennali. E' la previsione per capitolo: il Rendiconto per capitolo e' il consuntivo. Identita' DLB integrato = PLB + rimodulazioni + rif. DEF + effetti verificata dal 2018; nel 2017 la fonte non la rispetta (max 4,3 mld su Fondi da ripartire)."
+  description: "Disegno di Legge di Bilancio Presentato — Spese per capitolo, 2017-2027. Legislazione vigente, rimodulazioni, riferimenti DEF, DLB Sezione II, effetti del DLB e DLB integrato per missione/programma/azione su CP/CS triennali. E' la previsione per capitolo: il Rendiconto per capitolo e' il consuntivo. Identita' DLB integrato = PLB + rimodulazioni + terzo addendo + effetti verificata su 11/11 anni: il terzo addendo e' 'Rif. Def. Rip.' dal 2018 e 'Var. Manovra Sez. II' nel 2017 (sei colonne rinominate, stesso ruolo)."
   years: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027]
   time_coverage:
     start_year: 2017
@@ -44,8 +44,9 @@ clean:
     encoding: "cp1252"
     strict_mode: false
     trim_whitespace: true
-    # 59 colonne identiche dal 2017. Il 2011-2016 usa un modello diverso
-    # (37 colonne, senza Azione e senza PLB) ed e' escluso dal perimetro.
+    # 59 colonne dal 2018; il 2017 ha le stesse posizioni ma con sei colonne
+    # rinominate (Var. Manovra Sez. II al posto di Rif. Def. Rip.). Il 2011-2016
+    # usa un modello diverso (37 colonne, senza Azione e senza PLB) ed e' escluso.
     normalize_rows_to_columns: true
     align_by_header: true
     columns:
@@ -82,6 +83,12 @@ clean:
       "Rimodulazioni CS A1": "VARCHAR"
       "Rimodulazioni CS A2": "VARCHAR"
       "Rimodulazioni CS A3": "VARCHAR"
+      "Var. Manovra Sez. II CP A1": "VARCHAR"
+      "Var. Manovra Sez. II CP A2": "VARCHAR"
+      "Var. Manovra Sez. II CP A3": "VARCHAR"
+      "Var. Manovra Sez. II CS A1": "VARCHAR"
+      "Var. Manovra Sez. II CS A2": "VARCHAR"
+      "Var. Manovra Sez. II CS A3": "VARCHAR"
       "Rif. Def. Rip. CP A1": "VARCHAR"
       "Rif. Def. Rip. CP A2": "VARCHAR"
       "Rif. Def. Rip. CP A3": "VARCHAR"
@@ -130,11 +137,14 @@ mart:
       sql: "sql/mart_missione.sql"
     - name: "mart_amministrazione"
       sql: "sql/mart_amministrazione.sql"
+    - name: "mart_manovra_capitolo"
+      sql: "sql/mart_manovra_capitolo.sql"
   required_tables:
     - "mart_capitolo"
     - "mart_anno"
     - "mart_missione"
     - "mart_amministrazione"
+    - "mart_manovra_capitolo"
   validate:
     table_rules:
       mart_capitolo:
@@ -149,6 +159,10 @@ mart:
       mart_amministrazione:
         min_rows: 5
         primary_key: [anno, amministrazione]
+      mart_manovra_capitolo:
+        required_columns: [anno, numero_capitolo, delta_cp_a1_mln]
+        primary_key: [anno, stato_previsione, numero_capitolo]
+        min_rows: 500
 
 validation:
   fail_on_error: true

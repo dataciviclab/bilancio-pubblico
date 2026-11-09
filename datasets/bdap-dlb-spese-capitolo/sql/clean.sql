@@ -42,6 +42,15 @@ with base as (
         cast_double("Rimodulazioni CS A2") as rimodulazioni_cs_a2,
         cast_double("Rimodulazioni CS A3") as rimodulazioni_cs_a3,
 
+        -- 2017 ha "Var. Manovra Sez. II" al posto di "Rif. Def. Rip." (stesse
+        -- posizioni 34-39): è il terzo addendo dell'identità, rinominato.
+        cast_double("Var. Manovra Sez. II CP A1") as var_manovra_sez2_cp_a1,
+        cast_double("Var. Manovra Sez. II CP A2") as var_manovra_sez2_cp_a2,
+        cast_double("Var. Manovra Sez. II CP A3") as var_manovra_sez2_cp_a3,
+        cast_double("Var. Manovra Sez. II CS A1") as var_manovra_sez2_cs_a1,
+        cast_double("Var. Manovra Sez. II CS A2") as var_manovra_sez2_cs_a2,
+        cast_double("Var. Manovra Sez. II CS A3") as var_manovra_sez2_cs_a3,
+
         cast_double("Rif. Def. Rip. CP A1") as rif_def_rip_cp_a1,
         cast_double("Rif. Def. Rip. CP A2") as rif_def_rip_cp_a2,
         cast_double("Rif. Def. Rip. CP A3") as rif_def_rip_cp_a3,
@@ -76,11 +85,14 @@ with base as (
 
 select
     *,
-    -- controllo: il DLB integrato è la somma delle sue componenti
+    -- controllo: DLB integrato = PLB + Rimodulazioni + terzo addendo + Effetti.
+    -- Il terzo addendo è "Rif. Def. Rip." dal 2018 e "Var. Manovra Sez. II" nel
+    -- 2017: stesso ruolo, nome diverso.
+    coalesce(rif_def_rip_cp_a1, var_manovra_sez2_cp_a1) as terzo_addendo_cp_a1,
     round(
         coalesce(plb_vigente_cp_a1, 0)
         + coalesce(rimodulazioni_cp_a1, 0)
-        + coalesce(rif_def_rip_cp_a1, 0)
+        + coalesce(rif_def_rip_cp_a1, var_manovra_sez2_cp_a1, 0)
         + coalesce(effetti_dlb_sez1_cp_a1, 0)
         - coalesce(dlb_integrato_cp_a1, 0),
         2
