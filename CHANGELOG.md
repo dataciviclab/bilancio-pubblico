@@ -26,6 +26,30 @@ Data: 2026-11-09
   verificata su **11/11 anni**: il terzo addendo è `Rif. Def. Rip.` dal 2018 e
   `Var. Manovra Sez. II` nel 2017, mappato come `var_manovra_sez2_*`.
 
+## feat/bdap-dlb-entrate-articolo - DLB entrate per articolo, 2017-2027
+Data: 2026-11-09
+
+### Aggiunto
+- **1 dataset** `bdap_dlb_entrate_articolo` (openbdap, 2017-2027): Disegno di Legge
+  di Bilancio presentato, entrate per capitolo e articolo con titolo, natura,
+  tipologia e categoria. Misure: bilancio dell'anno precedente, DLB Sezione II,
+  effetti del DLB Sez. I e **DLB integrato**, su CP/CS triennali.
+- **4 mart**: `mart_articolo` (dettaglio), `mart_anno` (totali e quadratura),
+  `mart_titolo`, `mart_variazione_articolo` (anno-su-anno)
+
+### Note
+- Identità `DLB integrato = DLB Sezione II + effetti fin. DLB Sez. I` verificata
+  su **11/11 anni** (quadratura 0,00).
+- Sulle entrate **non esiste la legislazione vigente**: il confronto naturale è con
+  `Prev. Bil. Esercizio prec.`, quindi il mart è "variazione anno-su-anno", non
+  "manovra" come sulle spese.
+- Il 2017 ha 48 colonne: al posto delle 7 `Nuove norme DLB Sez. II` (vuote in tutti
+  gli anni) ha 3 `Variazioni proposte`. Entrambe mappate, l'assente resta NULL.
+- 2027: DLB integrato **1.222,3 mld** CP A1, identico al totale spese per capitolo:
+  il bilancio quadra sui due lati.
+- Nota: il Changelog di `feat/bdap-dlb-spese-capitolo` (PR #52) non è ancora in main;
+  al merge le due voci convivono.
+
 ## feat/note-integrative - Programmazione per obiettivi
 Data: 2026-11-04
 
