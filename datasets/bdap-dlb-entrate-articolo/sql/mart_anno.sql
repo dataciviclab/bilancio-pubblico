@@ -3,6 +3,7 @@ SELECT
     anno,
     round(sum(prev_bil_prec_cp) / 1e9, 3)     AS prev_bil_prec_cp_mld,
     round(sum(dlb_sez2_cp_a1) / 1e9, 3)       AS dlb_sez2_cp_a1_mld,
+    round(sum(nuove_norme_cp_a1) / 1e9, 3)     AS nuove_norme_cp_a1_mld,
     round(sum(effetti_dlb_sez1_cp_a1) / 1e9, 3) AS effetti_cp_a1_mld,
     round(sum(dlb_integrato_cp_a1) / 1e9, 3)  AS dlb_integrato_cp_a1_mld,
     round(sum(dlb_integrato_cp_a2) / 1e9, 3)  AS dlb_integrato_cp_a2_mld,

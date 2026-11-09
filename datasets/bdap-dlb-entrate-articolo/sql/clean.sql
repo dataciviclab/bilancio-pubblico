@@ -40,7 +40,8 @@ with base as (
         cast_double("DLB Sezione II CS A3") as dlb_sez2_cs_a3,
         cast_double("DLB Sezione II RS A1") as dlb_sez2_rs_a1,
 
-        -- dal 2018; vuote in tutti gli anni (documentato)
+        -- dal 2018. Non e' vuota: 2018-2020 e 2022-2025 hanno valori
+        -- (max 4.133 mln nel 2023); zero nel 2021, 2026 e 2027.
         cast_double("Nuove norme DLB Sez. II CP A1") as nuove_norme_cp_a1,
         cast_double("Nuove norme DLB Sez. II CP A2") as nuove_norme_cp_a2,
         cast_double("Nuove norme DLB Sez. II CP A3") as nuove_norme_cp_a3,
@@ -49,7 +50,8 @@ with base as (
         cast_double("Nuove norme DLB Sez. II CS A3") as nuove_norme_cs_a3,
         cast_double("Nuove norme DLB Sez. II RS A1") as nuove_norme_rs_a1,
 
-        -- solo 2017: l'analogo delle "Nuove norme" nel modello precedente
+        -- solo 2017: campo del modello precedente, NON comparabile con
+        -- "Nuove norme" (2017: 43,8 mld contro 0,4-4,1 mld dal 2018)
         cast_double("Variazioni proposte CP A1") as variazioni_proposte_cp_a1,
         cast_double("Variazioni proposte CS A1") as variazioni_proposte_cs_a1,
         cast_double("Variazioni proposte RS A1") as variazioni_proposte_rs_a1,

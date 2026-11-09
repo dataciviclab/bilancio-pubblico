@@ -45,7 +45,8 @@ clean:
     strict_mode: false
     trim_whitespace: true
     # 52 colonne dal 2018. Il 2017 ne ha 48: al posto delle 7 "Nuove norme DLB
-    # Sez. II" ha 3 "Variazioni proposte". Entrambe mappate, l'assente e' NULL.
+    # Sez. II" ha 3 "Variazioni proposte" (43,8 mld nel 2017, non comparabili con
+    # le Nuove norme: 0,4-4,1 mld dal 2018). Entrambe mappate, l'assente e' NULL.
     normalize_rows_to_columns: true
     align_by_header: true
     columns:

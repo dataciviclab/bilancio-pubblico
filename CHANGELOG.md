@@ -43,8 +43,11 @@ Data: 2026-11-09
 - Sulle entrate **non esiste la legislazione vigente**: il confronto naturale è con
   `Prev. Bil. Esercizio prec.`, quindi il mart è "variazione anno-su-anno", non
   "manovra" come sulle spese.
-- Il 2017 ha 48 colonne: al posto delle 7 `Nuove norme DLB Sez. II` (vuote in tutti
-  gli anni) ha 3 `Variazioni proposte`. Entrambe mappate, l'assente resta NULL.
+- Il 2017 ha 48 colonne: al posto delle 7 `Nuove norme DLB Sez. II` ha 3
+  `Variazioni proposte` (43,8 mld, grandezza non comparabile: le Nuove norme
+  valgono 0,4-4,1 mld dal 2018). Entrambe mappate, l'assente resta NULL.
+- `Nuove norme DLB Sez. II` **non è vuota**: 1,3 mld (2018), 0,4 (2019), 3,2 (2020),
+  −0,1 (2022), **4,1 (2023)**, 2,4 (2024), 1,3 (2025); zero nel 2021, 2026 e 2027.
 - 2027: DLB integrato **1.222,3 mld** CP A1, identico al totale spese per capitolo:
   il bilancio quadra sui due lati.
 - Nota: il Changelog di `feat/bdap-dlb-spese-capitolo` (PR #52) non è ancora in main;
