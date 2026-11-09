@@ -5,6 +5,378 @@
   "updated_at": "2026-11-09",
   "datasets": [
     {
+      "slug": "bdap_dlb_entrate_articolo",
+      "name": "Bdap Dlb Entrate Articolo",
+      "description": "Disegno di Legge di Bilancio Presentato — Entrate per capitolo e articolo, 2017-2027. Bilancio dell'anno precedente, DLB Sezione II, effetti del DLB Sez. I e DLB integrato per titolo/natura/tipologia/categoria su CP/CS triennali. E' la previsione per articolo: il Rendiconto per articolo e' il consuntivo.",
+      "source": "",
+      "source_id": "openbdap",
+      "period": {
+        "start": 2017,
+        "end": 2027
+      },
+      "tags": [
+        "finanza-pubblica",
+        "bdap",
+        "entrate",
+        "dlb",
+        "previsione",
+        "articolo",
+        "bilancio-stato"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "stato_previsione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "centro_responsabilita",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "amministrazione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "numero_capitolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "denominazione_capitolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "numero_articolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "articolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "titolo",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_natura",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "natura",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_tipologia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "tipologia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_attivita_provento",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "attivita_provento",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_categoria",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "categoria",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice_puntato_sec95",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "prev_bil_prec_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prev_bil_prec_cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prev_bil_prec_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "ass_bil_prec_cp",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "ass_bil_prec_cs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "ass_bil_prec_rs",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_sez2_rs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "nuove_norme_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "nuove_norme_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "nuove_norme_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "nuove_norme_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "nuove_norme_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "nuove_norme_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "nuove_norme_rs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "variazioni_proposte_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "variazioni_proposte_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "variazioni_proposte_rs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "effetti_dlb_sez1_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cp_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cp_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cs_a2",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_cs_a3",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "dlb_integrato_rs_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "quadratura_cp_a1",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/bilancio-pubblico/bdap_dlb_entrate_articolo/*/bdap_dlb_entrate_articolo_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "bdap_dlb_entrate_articolo__mart_articolo",
+        "bdap_dlb_entrate_articolo__mart_anno",
+        "bdap_dlb_entrate_articolo__mart_titolo",
+        "bdap_dlb_entrate_articolo__mart_variazione_articolo"
+      ]
+    },
+    {
       "slug": "bdap_dlb_spese_capitolo",
       "name": "Bdap Dlb Spese Capitolo",
       "description": "Disegno di Legge di Bilancio Presentato — Spese per capitolo, 2017-2027. Legislazione vigente, rimodulazioni, riferimenti DEF, DLB Sezione II, effetti del DLB e DLB integrato per missione/programma/azione su CP/CS triennali. E' la previsione per capitolo: il Rendiconto per capitolo e' il consuntivo. Identita' DLB integrato = PLB + rimodulazioni + terzo addendo + effetti verificata su 11/11 anni: il terzo addendo e' 'Rif. Def. Rip.' dal 2018 e 'Var. Manovra Sez. II' nel 2017 (sei colonne rinominate, stesso ruolo).",
@@ -2567,6 +2939,46 @@
   ],
   "marts": [
     {
+      "slug": "bdap_dlb_entrate_articolo__mart_anno",
+      "dataset": "bdap_dlb_entrate_articolo",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_entrate_articolo/*/mart_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_dlb_entrate_articolo__mart_articolo",
+      "dataset": "bdap_dlb_entrate_articolo",
+      "table": "mart_articolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_entrate_articolo/*/mart_articolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_dlb_entrate_articolo__mart_titolo",
+      "dataset": "bdap_dlb_entrate_articolo",
+      "table": "mart_titolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_entrate_articolo/*/mart_titolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "bdap_dlb_entrate_articolo__mart_variazione_articolo",
+      "dataset": "bdap_dlb_entrate_articolo",
+      "table": "mart_variazione_articolo",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/bilancio-pubblico/bdap_dlb_entrate_articolo/*/mart_variazione_articolo.parquet",
+        "multi_file": true
+      }
+    },
+    {
       "slug": "bdap_dlb_spese_capitolo__mart_amministrazione",
       "dataset": "bdap_dlb_spese_capitolo",
       "table": "mart_amministrazione",
@@ -2998,6 +3410,36 @@
     }
   ],
   "signals": [
+    {
+      "id": "bdap_dlb_entrate_articolo",
+      "source_id": "openbdap",
+      "status": "ok",
+      "label": "bdap_dlb_entrate_articolo",
+      "detail": "anni 2017-2027 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261109T184610Z_32c1d5b7",
+        "year": 2027,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 2117,
+          "mart": 4239
+        },
+        "output_bytes": {
+          "raw": 1999866,
+          "clean": 229769,
+          "mart": 318700
+        },
+        "started_at": "2026-11-09T18:46:10.815618+00:00",
+        "finished_at": "2026-11-09T18:46:15.423012+00:00",
+        "duration_seconds": 4.607
+      }
+    },
     {
       "id": "bdap_dlb_spese_capitolo",
       "source_id": "openbdap",
@@ -3747,6 +4189,12 @@
         "label": "Tempo / data",
         "datasets": [
           {
+            "slug": "bdap_dlb_entrate_articolo",
+            "name": "Bdap Dlb Entrate Articolo",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
             "slug": "bdap_dlb_spese_capitolo",
             "name": "Bdap Dlb Spese Capitolo",
             "column": "anno",
@@ -3850,7 +4298,7 @@
           }
         ],
         "types": {
-          "year": 17
+          "year": 18
         }
       }
     },
